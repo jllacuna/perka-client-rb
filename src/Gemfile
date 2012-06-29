@@ -4,5 +4,10 @@ source 'https://rubygems.org'
 gemspec
 
 #TODO figure out how to have this locally (maven snapshot style)
-gem "flatpack_client", :path => '../../../flatpack-rb/client', :group => :development
-gem "flatpack_core", :path => '../../../flatpack-rb/core', :group => :development
+gem "flatpack_client", 
+  :path => '../../../flatpack-rb/client', 
+  :group => :development
+
+gem "flatpack_core", 
+  :path => '../../../flatpack-rb/core', 
+  :group => :development
