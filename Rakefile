@@ -20,6 +20,8 @@ task :gen do
   # download the fast executable jar if we haven't already
   unless(File.exist?("#{FAST_JAR}"))
     puts 'fetching fast.jar...'
+    
+    `mvn -f ../flatpack-java/fast/pom.xml install`
 
     `mvn -U org.apache.maven.plugins:maven-dependency-plugin:2.4:get \
       -Drepo=https://oss.sonatype.org/content/groups/public/ \
