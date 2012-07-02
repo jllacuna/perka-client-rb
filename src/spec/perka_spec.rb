@@ -20,10 +20,18 @@ describe Perka::Model do
     flatpack = nil
     api = Perka::Api.new(flatpack)
     
+    api.merchant_search_get().
+      with_only_visited('foo foo').
+      with_after_uuid('foo').
+      execute
+    
     d = Perka::Model::MerchantDevice.new
     d.make = 'Apple'
     api.merchant_device_register_put(d).
       with_switch_to_clerk(true).
       execute
+      
+    api.describe_type_uuid_get('Coupon','uuid').execute
+    
   end
 end
