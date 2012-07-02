@@ -6,10 +6,13 @@ puts Flatpack::Core::VERSION
 
 describe Perka::Model do
   it "should pass a smoke test" do
-    c = Perka::Model::Customer.new
-    c.avatar_url = 'avatar'
-    c.first_name = 'Joe'
+    c = Perka::Model::Customer.new({
+      :avatar_url => 'avatar',
+      :first_name => 'Joe',
+      :junk => 'junk'
+    })
     c.last_name = 'Stelmach'
+    puts c.inspect
 
     c.avatar_url.should eq('avatar')
     c.first_name.should eq('Joe')
@@ -19,19 +22,15 @@ describe Perka::Model do
   it "builds a flatpack api request" do
     flatpack = nil
     api = Perka::Api.new(flatpack)
+    api.server_base = URI.parse('http://localhost')
+    puts api.server_base.request_uri
     
-    api.merchant_search_get().
-      with_only_visited('foo foo').
-      with_after_uuid('foo').
-      execute
+    cred = Perka::Model::UserCredentials.new({
+      :email => 'joe@getperka.com',
+      :password => 'foo'
+    })
+    res = api.customer_login_post(cred).execute
     
-    d = Perka::Model::MerchantDevice.new
-    d.make = 'Apple'
-    api.merchant_device_register_put(d).
-      with_switch_to_clerk(true).
-      execute
-      
-    api.describe_type_uuid_get('Coupon','uuid').execute
-    
+    puts res
   end
 end
