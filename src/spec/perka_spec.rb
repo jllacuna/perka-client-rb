@@ -1,4 +1,5 @@
 require 'perka'
+require 'flatpack_core'
 
 puts Perka::VERSION
 puts Flatpack::Client::VERSION
@@ -20,7 +21,9 @@ describe Perka::Model do
   end
   
   it "builds a flatpack api request" do
-    flatpack = nil
+    conf = Flatpack::Core::Configuration.new(true, true)
+    flatpack = Flatpack::Core::Flatpack.new(conf)
+      
     api = Perka::Api.new(flatpack)
     api.server_base = URI.parse('http://localhost')
     puts api.server_base.request_uri
