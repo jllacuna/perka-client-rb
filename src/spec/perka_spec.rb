@@ -15,13 +15,21 @@ describe Perka::Model do
     c.first_name.should eq('Joe')
     c.last_name.should eq('Stelmach')
     
-    conf = Flatpack::Core::Configuration.new(false, false)
+    conf = Flatpack::Core::Configuration.new({
+      :pretty => false, 
+      :verbose => false,
+      :entity_module => Perka::Model
+    })
     flatpack = Flatpack::Core::Flatpack.new(conf)
     flatpack.packer.pack(c)
   end
   
   it "performs auth" do
-    conf = Flatpack::Core::Configuration.new(true, true)
+    conf = Flatpack::Core::Configuration.new({
+      :pretty => false, 
+      :verbose => false,
+      :entity_module => Perka::Model
+    })
     flatpack = Flatpack::Core::Flatpack.new(conf)
     api = Perka::PerkaApi.new(flatpack)
     api.server_base = URI.parse('http://localhost')
@@ -31,7 +39,8 @@ describe Perka::Model do
       :email => 'joe_rspec@getperka.com',
       :password => 'foo'
     })
-    res = api.integrator_customer_post(cred).execute
+    customer = api.integrator_customer_post(cred).execute
+    puts customer.inspect
     
   end
   
