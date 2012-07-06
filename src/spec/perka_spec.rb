@@ -1,9 +1,6 @@
 require 'perka'
-require 'flatpack_core'
 
-puts Perka::VERSION
-puts Flatpack::Client::VERSION
-puts Flatpack::Core::VERSION
+INTEGRATOR_ID = 'e475e342-a542-11e1-9f8d-cde92706a93d'
 
 describe Perka::Model do
   it "should pass a smoke test" do
@@ -13,27 +10,29 @@ describe Perka::Model do
       :junk => 'junk'
     })
     c.last_name = 'Stelmach'
-    puts c.inspect
 
     c.avatar_url.should eq('avatar')
     c.first_name.should eq('Joe')
     c.last_name.should eq('Stelmach')
+    
+    conf = Flatpack::Core::Configuration.new(false, false)
+    flatpack = Flatpack::Core::Flatpack.new(conf)
+    flatpack.packer.pack(c)
   end
   
-  it "builds a flatpack api request" do
+  it "performs auth" do
     conf = Flatpack::Core::Configuration.new(true, true)
     flatpack = Flatpack::Core::Flatpack.new(conf)
-      
-    api = Perka::Api.new(flatpack)
+    api = Perka::PerkaApi.new(flatpack)
     api.server_base = URI.parse('http://localhost')
-    puts api.server_base.request_uri
+    api.oauth_integrator_login(INTEGRATOR_ID, "integrator")
     
     cred = Perka::Model::UserCredentials.new({
-      :email => 'joe@getperka.com',
+      :email => 'joe_rspec@getperka.com',
       :password => 'foo'
     })
-    res = api.customer_login_post(cred).execute
+    res = api.integrator_customer_post(cred).execute
     
-    puts res
   end
+  
 end

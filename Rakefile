@@ -6,7 +6,7 @@ OUTPUT_DIR = "#{File.dirname(__FILE__)}/target"
 FLATPACK_OUTPUT_DIR = "#{OUTPUT_DIR}/generated"
 GEM_OUTPUT_DIR = "#{OUTPUT_DIR}/gem"
 
-FAST_VERSION = '2.7-SNAPSHOT'
+FAST_VERSION = '2.8-SNAPSHOT'
 FAST_JAR = "#{OUTPUT_DIR}/fast.jar"
 
 task :clean do
