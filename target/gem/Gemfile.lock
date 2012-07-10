@@ -1,0 +1,45 @@
+PATH
+  remote: ../../../flatpack-rb/client
+  specs:
+    flatpack_client (1.0)
+      flatpack_core (>= 1.0)
+
+PATH
+  remote: ../../../flatpack-rb/core
+  specs:
+    flatpack_core (1.0)
+      active_support
+      json
+      uuidtools
+
+PATH
+  remote: .
+  specs:
+    perka (1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    active_support (3.0.0)
+      activesupport (= 3.0.0)
+    activesupport (3.0.0)
+    diff-lcs (1.1.3)
+    json (1.7.3)
+    rspec (2.10.0)
+      rspec-core (~> 2.10.0)
+      rspec-expectations (~> 2.10.0)
+      rspec-mocks (~> 2.10.0)
+    rspec-core (2.10.1)
+    rspec-expectations (2.10.0)
+      diff-lcs (~> 1.1.3)
+    rspec-mocks (2.10.1)
+    uuidtools (2.1.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  flatpack_client!
+  flatpack_core!
+  perka!
+  rspec (~> 2.6)
