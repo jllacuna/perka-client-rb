@@ -30,11 +30,11 @@ task :gen do
   end
 
   puts 'running fast code generation...'
-  `java -jar #{FAST_JAR} \
+  puts `java -jar #{FAST_JAR} \
       --RbDialect.gemName perka \
       --RbDialect.moduleName Perka \
       --RbDialect.modelModuleName Model \
-      generate --dialect rb --out #{OUTPUT_DIR} $@`
+      generate --in http://localhost/api/2/describe --dialect rb --out #{OUTPUT_DIR} $@`
 end
 
 desc "Combines the generated flatpack code with our local code in the gem output dir"

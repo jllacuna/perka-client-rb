@@ -1,10 +1,13 @@
-require 'flatpack_client'
+require 'flatpack_core'
 
 module Perka
   class PerkaApi < Perka::ClientApi
     
-    attr_accessor :access_expiration, :refresh_token, :user_uuid
+    include Flatpack::Core::MapInitialize
     
+    attr_accessor :access_token, :access_expiration, :refresh_token, :user_uuid
+    
+    # Grants an integrator access token
     def oauth_integrator_login(integrator_id, integrator_secret)
       payload = 
         "grant_type=password"\
@@ -12,37 +15,36 @@ module Perka
         "&client_id=#{integrator_id}"\
         "&password=#{URI::encode(integrator_secret)}"\
         "&scope=INTEGRATOR";
-      puts payload
-        
-      execute_token_request(payload);
+      
+      execute_token_request(self, payload);
     end
     
     # returns a new PerkaApi authorized as the given role and user
-    def oauth_integrator_become(role, user_uuid)
-      role = user.role
-      uuid = user.uuid
+    def oauth_integrator_become(role, uuid)
+      role = role
       payload = "grant_type=client_credentials&scope=#{URI::encode(role)}:#{uuid}"
-      new_api = PerkaApi.new(@flatpack)
-      new_api.access_token = @access_token
-      new_api.verbose = @verbose
-      new_api.execute_token_request(payload)
+      new_api = PerkaApi.new({
+        :server_base => @server_base,
+        :flatpack => @flatpack,
+        :access_token => @access_token,
+        :verbose => @verbose,
+      })
+      execute_token_request(new_api, payload)
       new_api
     end
     
     private 
     
-    def execute_token_request(payload)
-      json = TokenRequest.new(self, payload).execute
+    def execute_token_request(api, payload)
+      json = TokenRequest.new(api, payload).execute
       status = json['status_code']
-      puts "Token request executed with status: #{status}"
-      puts JSON.pretty_generate(json)
       
       expires = json['expires_in']
-      @access_token_expiration = Time.now + expires.to_i if expires
-      @access_token = json['access_token']
-      @refresh_token = json['refresh_token']
+      api.access_expiration = Time.now + expires.to_i if expires
+      api.access_token = json['access_token']
+      api.refresh_token = json['refresh_token']
       uuid = json['uuid']
-      @user_uuid = uuid if uuid
+      api.user_uuid = uuid if uuid
     end
     
     class TokenRequest < Flatpack::Client::JsonRequest
