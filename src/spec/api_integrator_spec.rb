@@ -96,7 +96,8 @@ describe Perka::PerkaApi do
         :customer => customer,
         :reward_confirmations => [
           Perka::Model::PunchRewardConfirmation.new({
-            :programType => program_type
+            :program_type => program_type,
+            :punches_earned => 2
           })
         ]
       })).execute
