@@ -18,7 +18,6 @@ describe Perka::PerkaApi do
         :server_base => URI.parse(API_BASE),
         :verbose => true
       })
-    
     end
   
     # clear out all customer data before each test
@@ -80,19 +79,27 @@ describe Perka::PerkaApi do
       # lets assume this integrator has only one managed merchant
       merchant = merchants.first
       
-      # now we'll describe our merchant to take a look at our program data
+      # By default, API endpoints DO NOT return a full object graph of data.  
+      # For example, the above integrator_managed_merchants_get endpoint returns
+      # only the merchant with no associated location or program data.  The 
+      # describe_type_uuid_get endpoint is an exception to this rule, and will 
+      # always peform a deep serialization of the entity being described.  We'll 
+      # now describe our merchant to gain access to our location and program data.
       merchant = @api.describe_type_uuid_get("merchant",merchant.uuid).execute
       
-      program_type = merchant.program_tiers.first.programs.first.program_type
-      
-      # with one location
+      # The merchant's locations should now be populated
       location = merchant.merchant_locations.first
       
-      # now we'll switch our session over to a clerk at that location
+      # The program data should also be populated, so we can dig down and grab
+      # a program type that we'd like to award points for
+      program_type = merchant.program_tiers.first.programs.first.program_type
+      
+      # now we'll switch our session over to a clerk at the merchant location.
+      # This will authorize our API to execute clerk enabled endpoints.
       @api = @api.oauth_integrator_become("CLERK", location.uuid)
       
-      # and assign some punches
-      @api.customer_reward_put(Perka::Model::RewardGrant.new({
+      # we can now assign some loyalty punches to our new customer
+      visit = @api.customer_reward_put(Perka::Model::RewardGrant.new({
         :customer => customer,
         :reward_confirmations => [
           Perka::Model::PunchRewardConfirmation.new({
@@ -102,8 +109,19 @@ describe Perka::PerkaApi do
         ]
       })).execute
       
+      # A new visit should have been returned describing the transaction.
+      # The customer and merchant location should be what we specified
+      visit.customer.uuid.should eq(customer.uuid)
+      visit.merchant_location.uuid.should eq(location.uuid)
+      
+      # A new reward should have been advanced by 2 punches
+      visit.reward_advancements.length.should eq(1)
+      advancement = visit.reward_advancements.first
+      advancement.punches_earned.should eq(2)
+      
+      # The reward should show a sum of only 2 punches since this is a new customer
+      advancement.reward.punches_earned.should eq(2)
+      
     end
-  
   end
-  
 end
