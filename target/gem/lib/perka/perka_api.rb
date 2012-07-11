@@ -9,6 +9,8 @@ module Perka
     
     # Grants an integrator access token
     def oauth_integrator_login(integrator_id, integrator_secret)
+      @integrator_id = integrator_id
+      @integrator_secret = integrator_secret
       payload = 
         "grant_type=password"\
         "&username=#{integrator_id}"\
@@ -31,6 +33,16 @@ module Perka
       })
       execute_token_request(new_api, payload)
       new_api
+    end
+    
+    # Obtain a new access token using integrator credentials and a refresh token.
+    def oauth_refresh_token
+      payload = "grant_type=refresh_token"\
+        "&client_id=#{@integrator_id}"\
+        "&client_secret=#{URI::encode(@integrator_secret)}"\
+        "&refresh_token=#{@refresh_token}"
+      
+      execute_token_request(self, payload);
     end
     
     private 
