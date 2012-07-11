@@ -25,22 +25,13 @@ module Perka
         :reward_advancements,
 
         # The time at which the visit was confirmed by the clerk.
-        :validated_at,
-
-        # The <entityReference payloadName='coupon'> Coupons</entityReference> that 
-        # were redeemed during the visit.
-        :coupon_redemptions,
-
-        # Any feedback left by the Customer after the Visit was validated.
-        :feedback_item
+        :validated_at
       ]
       attr_accessor *PROPERTY_NAMES
 
-      require 'perka/model/feedback_item'
       require 'perka/model/merchant_location'
       require 'perka/model/customer'
       TYPE_MAP = {
-        :feedback_item => Perka::Model::FeedbackItem,
         :merchant_location => Perka::Model::MerchantLocation,
         :customer => Perka::Model::Customer
       }

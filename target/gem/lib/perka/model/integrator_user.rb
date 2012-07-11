@@ -9,10 +9,6 @@ module Perka
     # mainly used to obtain access tokens to act as other users.
     class IntegratorUser < AbstractUser
 
-      PROPERTY_NAMES = [
-        :managed_merchants
-      ]
-      attr_accessor *PROPERTY_NAMES
 
 
     end

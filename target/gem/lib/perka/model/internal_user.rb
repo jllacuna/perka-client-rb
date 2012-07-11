@@ -8,10 +8,6 @@ module Perka
     # Represents a Perka customer service representative.
     class InternalUser < AbstractUser
 
-      PROPERTY_NAMES = [
-        :admin
-      ]
-      attr_accessor *PROPERTY_NAMES
 
 
     end

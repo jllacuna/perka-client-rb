@@ -10,14 +10,6 @@ module Perka
     # on a frequent basis or ones that are computationally-intensive to compute.
     class ListTarget < CouponTarget
 
-      PROPERTY_NAMES = [
-
-        # Indicates that the class should match all Customers, regardless of whether 
-        # or not a <entityReference payloadName='couponTargetMembership'> CouponTargetMembership</entityReference> 
-        # exists.
-        :all_customers
-      ]
-      attr_accessor *PROPERTY_NAMES
 
 
     end

@@ -15,7 +15,6 @@ module Perka
         :free_item,
         :punches_needed,
         :image_name,
-        :perk_id,
         :terms,
         :punches_needed_prefix,
         :punches_needed_suffix,

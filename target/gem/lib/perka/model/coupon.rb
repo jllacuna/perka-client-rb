@@ -32,7 +32,6 @@ module Perka
         :local_ends_at,
         :notify_minutes_before,
         :perk_id,
-        :short_link,
         :summary,
         :url,
 
@@ -44,10 +43,8 @@ module Perka
       attr_accessor *PROPERTY_NAMES
 
       require 'perka/model/coupon_campaign'
-      require 'perka/model/short_link'
       TYPE_MAP = {
-        :coupon_campaign => Perka::Model::CouponCampaign,
-        :short_link => Perka::Model::ShortLink
+        :coupon_campaign => Perka::Model::CouponCampaign
       }
 
     end

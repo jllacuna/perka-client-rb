@@ -17,11 +17,9 @@ module Perka
         # Used to implicitly concatenate the <code>address</code> and <code>address2</code> 
         # fields in a friendly format.
         :combined_address,
-        :coupon_visibilities,
         :distance_in_meters,
         :latitude,
         :longitude,
-        :merchant_devices,
         :neighborhood_name,
         :sms_id,
         :street_address
