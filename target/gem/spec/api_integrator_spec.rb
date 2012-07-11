@@ -1,12 +1,12 @@
 require 'perka'
 
-INTEGRATOR_ID = 'e475e342-a542-11e1-9f8d-cde92706a93d'
-INTEGRATOR_SECRET = 'integrator'
-API_BASE = 'http://localhost'
+#INTEGRATOR_ID = 'e475e342-a542-11e1-9f8d-cde92706a93d'
+#INTEGRATOR_SECRET = 'integrator'
+#API_BASE = 'http://localhost'
 
-#INTEGRATOR_ID = 'ab902690-cac3-11e1-9b23-0800200c9a66'
-#INTEGRATOR_SECRET = 'foobar'
-#API_BASE = 'https://sandbox.getperka.com'
+INTEGRATOR_ID = '44ff7a20-cb63-11e1-9b23-0800200c9a66'
+INTEGRATOR_SECRET = 'foobar'
+API_BASE = 'https://sandbox.getperka.com'
 
 describe Perka::PerkaApi do
   context "as an integrator user" do
@@ -126,6 +126,64 @@ describe Perka::PerkaApi do
       
       # The reward should show a sum of only 2 punches since this is a new customer
       advancement.reward.punches_earned.should eq(2)
+      
+      # We'll now pull down the customer's reward status
+      rewards = @api.customer_reward_get.with_customer_uuid(customer.uuid).execute
+      
+      # We should have only one non-activated, non-redeemed reward with 2 punches
+      rewards.length.should eq(1)
+      rewards.first.activated_at.should be_nil
+      rewards.first.redeemed_at.should be_nil
+      rewards.first.punches_earned.should eq(2)
+      
+      # Now we'll give the customer another 9 punches, which should activate the 
+      # reward and make it available for redemption, and will create another 
+      # reward with a single punch
+      @api.customer_reward_put(Perka::Model::RewardGrant.new({
+        :customer => customer,
+        :reward_confirmations => [
+          Perka::Model::PunchRewardConfirmation.new({
+            :program_type => program_type,
+            :punches_earned => 9
+          })
+        ]
+      })).execute
+      
+      # The customer should now one activated, and one non-activated reward
+      rewards = @api.customer_reward_get.with_customer_uuid(customer.uuid).execute
+      rewards.length.should eq(2)
+      active_reward = rewards.detect {|r| r.activated_at }
+      active_reward.activated_at.should_not be_nil
+      active_reward.redeemed_at.should be_nil
+      active_reward.punches_earned.should eq(10)
+      
+      inactive_reward = rewards.detect {|r| !r.activated_at }
+      inactive_reward.activated_at.should be_nil
+      inactive_reward.redeemed_at.should be_nil
+      inactive_reward.punches_earned.should eq(1)
+      
+      # We'll now redeem the active reward.  We can also award 
+      # more punches in the same transaction
+      @api.customer_reward_put(Perka::Model::RewardGrant.new({
+        :customer => customer,
+        :reward_confirmations => [
+          Perka::Model::RedemptionRewardConfirmation.new({
+            :reward => active_reward
+          }),
+          Perka::Model::PunchRewardConfirmation.new({
+            :program_type => program_type,
+            :punches_earned => 1
+          })
+        ]
+      })).execute
+      
+      # The customer status should now show just one non-active 
+      # reward with 2 punches
+      rewards = @api.customer_reward_get.with_customer_uuid(customer.uuid).execute
+      rewards.length.should eq(1)
+      rewards.first.activated_at.should be_nil
+      rewards.first.redeemed_at.should be_nil
+      rewards.first.punches_earned.should eq(2)
       
     end
   end
