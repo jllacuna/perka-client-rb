@@ -10,10 +10,10 @@ module Perka
     class ParameterDescription < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
-        :name,
-        :type,
         :doc_string,
-        :endpoint
+        :endpoint,
+        :name,
+        :type
       ]
       attr_accessor *PROPERTY_NAMES
 

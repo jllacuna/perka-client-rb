@@ -8,11 +8,11 @@ module Perka
     class OrderLineItem < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
-        :display_name,
         :order,
-        :unit_price,
         :catalog_item,
-        :quantity
+        :quantity,
+        :unit_price,
+        :display_name
       ]
       attr_accessor *PROPERTY_NAMES
 

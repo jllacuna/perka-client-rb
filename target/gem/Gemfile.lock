@@ -2,7 +2,7 @@ PATH
   remote: ../../../flatpack-rb/client
   specs:
     flatpack_client (1.0)
-      flatpack_core (>= 1.0)
+      flatpack_core (= 1.0)
 
 PATH
   remote: ../../../flatpack-rb/core

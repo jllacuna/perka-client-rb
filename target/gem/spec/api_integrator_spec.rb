@@ -4,6 +4,10 @@ INTEGRATOR_ID = 'e475e342-a542-11e1-9f8d-cde92706a93d'
 INTEGRATOR_SECRET = 'integrator'
 API_BASE = 'http://localhost'
 
+#INTEGRATOR_ID = 'ab902690-cac3-11e1-9b23-0800200c9a66'
+#INTEGRATOR_SECRET = 'foobar'
+#API_BASE = 'https://sandbox.getperka.com'
+
 describe Perka::PerkaApi do
   context "as an integrator user" do
   
@@ -15,10 +19,10 @@ describe Perka::PerkaApi do
           :verbose => true,
           :entity_module => Perka::Model
         }),
-        :server_base => URI.parse(API_BASE),
+        :server_base => API_BASE,
         :verbose => true
       })
-    
+      @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
     end
   
     # clear out all customer data before each test
@@ -95,8 +99,8 @@ describe Perka::PerkaApi do
       # a program type that we'd like to award points for
       program_type = merchant.program_tiers.first.programs.first.program_type
       
-      # now we'll switch our session over to a clerk at the merchant location.  This
-      # will authorize our API to execute clerk enabled endpoints.
+      # now we'll switch our session over to a clerk at the merchant location.
+      # This will authorize our API to execute clerk enabled endpoints.
       @api = @api.oauth_integrator_become("CLERK", location.uuid)
       
       # we can now assign some loyalty punches to our new customer
@@ -110,18 +114,17 @@ describe Perka::PerkaApi do
         ]
       })).execute
       
-      # A visit should have been returned, describing our transaction.
+      # A new visit should have been returned describing the transaction.
       # The customer and merchant location should be what we specified
       visit.customer.uuid.should eq(customer.uuid)
       visit.merchant_location.uuid.should eq(location.uuid)
       
-      # A reward should have been advanced by 2 punches
+      # A new reward should have been advanced by 2 punches
       visit.reward_advancements.length.should eq(1)
       advancement = visit.reward_advancements.first
       advancement.punches_earned.should eq(2)
       
-      # since we just created this customer, the associated reward should
-      # show a sum of only 2 punches
+      # The reward should show a sum of only 2 punches since this is a new customer
       advancement.reward.punches_earned.should eq(2)
       
     end

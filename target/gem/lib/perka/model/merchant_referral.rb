@@ -8,11 +8,11 @@ module Perka
     class MerchantReferral < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
+        :city,
+        :zip,
         :name,
         :state,
-        :info,
-        :city,
-        :zip
+        :info
       ]
       attr_accessor *PROPERTY_NAMES
 

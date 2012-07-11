@@ -12,11 +12,11 @@ module Perka
     class CouponCampaign < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :title,
         :coupons,
 
         # Retains the original <code>RRULE</code> string used to construct the campaign.
-        :rrule
+        :rrule,
+        :title
       ]
       attr_accessor *PROPERTY_NAMES
 

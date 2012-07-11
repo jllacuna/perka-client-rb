@@ -34,7 +34,7 @@ task :gen do
       --RbDialect.gemName perka \
       --RbDialect.moduleName Perka \
       --RbDialect.modelModuleName Model \
-      generate --in http://localhost/api/2/describe --dialect rb --out #{OUTPUT_DIR} $@`
+      generate --in https://sandbox.getperka.com/api/2/describe --dialect rb --out #{OUTPUT_DIR} $@`
 end
 
 desc "Combines the generated flatpack code with our local code in the gem output dir"

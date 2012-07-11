@@ -4,6 +4,10 @@ INTEGRATOR_ID = 'e475e342-a542-11e1-9f8d-cde92706a93d'
 INTEGRATOR_SECRET = 'integrator'
 API_BASE = 'http://localhost'
 
+#INTEGRATOR_ID = 'ab902690-cac3-11e1-9b23-0800200c9a66'
+#INTEGRATOR_SECRET = 'foobar'
+#API_BASE = 'https://sandbox.getperka.com'
+
 describe Perka::PerkaApi do
   context "as an integrator user" do
   
@@ -15,9 +19,10 @@ describe Perka::PerkaApi do
           :verbose => true,
           :entity_module => Perka::Model
         }),
-        :server_base => URI.parse(API_BASE),
+        :server_base => API_BASE,
         :verbose => true
       })
+      @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
     end
   
     # clear out all customer data before each test

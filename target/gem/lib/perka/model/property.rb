@@ -9,13 +9,6 @@ module Perka
     class Property < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
-
-        # Returns the json payload name of the Property, which may differ from the 
-        # bean name if a JsonProperty annotation has been applied to the getter.
-        :name,
-
-        # A simplified description of the property's type.
-        :type,
         :doc_string,
 
         # The payload name of the type that defines the property.
@@ -38,10 +31,6 @@ module Perka
         # a deep traversal.
         :deep_traversal_only,
 
-        # Returns <code>true</code> if an entity Property's properties should be 
-        # emitted into the owning entity's properties.
-        :embedded,
-
         # Returns <code>true</code> if the referred entity's owner should also be 
         # considered an owner of the entity that defines the Property.
         :inherit_principal,
@@ -49,7 +38,18 @@ module Perka
         # If <code>true</code>, non-null properties that contain the property type's 
         # default value will not be serialized. For example, integer properties 
         # whose values are <code>0</code> will not be serialized.
-        :suppress_default_value
+        :suppress_default_value,
+
+        # Returns the json payload name of the Property, which may differ from the 
+        # bean name if a JsonProperty annotation has been applied to the getter.
+        :name,
+
+        # A simplified description of the property's type.
+        :type,
+
+        # Returns <code>true</code> if an entity Property's properties should be 
+        # emitted into the owning entity's properties.
+        :embedded
       ]
       attr_accessor *PROPERTY_NAMES
 

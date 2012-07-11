@@ -9,14 +9,14 @@ module Perka
     class SmsMessage < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :contents,
         :customer,
         :merchant_user,
         :from_sms_number,
-        :inbound,
-        :to_sms_number,
         :provider_sid,
-        :provider_status
+        :provider_status,
+        :to_sms_number,
+        :inbound,
+        :contents
       ]
       attr_accessor *PROPERTY_NAMES
 

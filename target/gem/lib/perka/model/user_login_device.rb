@@ -9,13 +9,13 @@ module Perka
 
       PROPERTY_NAMES = [
         :hash,
-        :model,
         :make,
         :os_version,
         :platform,
         :device_id,
         :nonce,
-        :push_token
+        :push_token,
+        :model
       ]
       attr_accessor *PROPERTY_NAMES
 

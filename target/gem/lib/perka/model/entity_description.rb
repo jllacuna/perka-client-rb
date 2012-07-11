@@ -9,10 +9,10 @@ module Perka
     class EntityDescription < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
-        :properties,
-        :type_name,
         :doc_string,
-        :supertype
+        :supertype,
+        :properties,
+        :type_name
       ]
       attr_accessor *PROPERTY_NAMES
 

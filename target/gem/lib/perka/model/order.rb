@@ -8,13 +8,13 @@ module Perka
     class Order < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
-        :id,
         :location_count,
-        :line_items,
         :discount,
+        :line_items,
         :merchant_uuid,
         :payment_coupons,
-        :renewal_date
+        :renewal_date,
+        :id
       ]
       attr_accessor *PROPERTY_NAMES
 

@@ -9,8 +9,8 @@ module Perka
     class Selection < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
-        :value,
-        :signup_data
+        :signup_data,
+        :value
       ]
       attr_accessor *PROPERTY_NAMES
 

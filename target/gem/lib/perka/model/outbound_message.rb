@@ -8,11 +8,10 @@ module Perka
     class OutboundMessage < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :state,
         :customer,
         :body,
-        :merchant_user,
         :embargo_time,
+        :merchant_user,
 
         # This property is used to prevent a recipient from being messaged excessively. 
         # There is a unique constraint in the database that will prevent two messages 
@@ -20,7 +19,8 @@ module Perka
         :rate_limit_token,
 
         # Populated when the message has been queued in the SQS queue.
-        :sqs_message_id
+        :sqs_message_id,
+        :state
       ]
       attr_accessor *PROPERTY_NAMES
 

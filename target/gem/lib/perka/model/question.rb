@@ -8,14 +8,10 @@ module Perka
     class Question < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
-        :address,
-        :state,
-        :country,
         :email,
         :first_name,
         :last_name,
         :phone,
-        :full_name,
         :city,
         :subject,
         :lead_source,
@@ -23,10 +19,14 @@ module Perka
         :zip,
         :business_name,
         :current_url,
-        :device,
         :media_outlet,
         :question,
-        :question_type
+        :question_type,
+        :address,
+        :state,
+        :country,
+        :device,
+        :full_name
       ]
       attr_accessor *PROPERTY_NAMES
 

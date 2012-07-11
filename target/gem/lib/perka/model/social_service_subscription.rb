@@ -11,8 +11,8 @@ module Perka
 
       PROPERTY_NAMES = [
         :customer,
-        :social_service,
-        :social_action
+        :social_action,
+        :social_service
       ]
       attr_accessor *PROPERTY_NAMES
 

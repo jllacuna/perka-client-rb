@@ -48,15 +48,12 @@ module Perka
     end
     
     class TokenRequest < Flatpack::Client::JsonRequest
+      attr_accessor :payload
       
       def initialize(api, payload)
         @payload = payload
         super(api, "POST", "/api/2/auth/token");
         header("Content-Type", "application/x-www-form-urlencoded");
-      end
-      
-      def write_entity(req)
-        req.body = @payload
       end
     end
     

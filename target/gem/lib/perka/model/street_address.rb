@@ -12,11 +12,11 @@ module Perka
     class StreetAddress < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
-        :address,
-        :state,
         :address_2,
         :city,
-        :zip
+        :zip,
+        :address,
+        :state
       ]
       attr_accessor *PROPERTY_NAMES
 

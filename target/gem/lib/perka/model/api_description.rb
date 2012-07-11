@@ -9,10 +9,10 @@ module Perka
     class ApiDescription < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
-        :entities,
         :api_name,
         :api_version,
-        :endpoints
+        :endpoints,
+        :entities
       ]
       attr_accessor *PROPERTY_NAMES
 

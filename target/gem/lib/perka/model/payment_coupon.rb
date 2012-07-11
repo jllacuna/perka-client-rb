@@ -10,13 +10,13 @@ module Perka
     class PaymentCoupon < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
-        :id,
         :order,
         :amount,
         :diagnostics,
         :due_date,
         :payment_state,
-        :processed_date
+        :processed_date,
+        :id
       ]
       attr_accessor *PROPERTY_NAMES
 

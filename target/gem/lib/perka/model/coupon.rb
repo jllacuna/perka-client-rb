@@ -14,6 +14,12 @@ module Perka
         # The CouponVisibilites that control where and to whom the Coupon is available.
         :coupon_visibilities,
 
+        # The parent CouponCampaign that aggregates related Coupons.
+        :coupon_campaign,
+
+        # The short perk icon name (e.g. <code>unicorn</code>).
+        :image_name,
+
         # This property doesn't represent a single instance in time (i.e. a number 
         # of milliseconds past the epoch in UTC time). Instead, this value must 
         # be interpreted using the user's local timezone. For example, if the exact 
@@ -22,24 +28,18 @@ module Perka
         # user's local timezone.
         :local_begins_at,
 
-        # The parent CouponCampaign that aggregates related Coupons.
-        :coupon_campaign,
-
         # See note on #getLocalBeginsAt() on how to interpret this.
         :local_ends_at,
-
-        # The short perk icon name (e.g. <code>unicorn</code>).
-        :image_name,
         :notify_minutes_before,
         :perk_id,
-        :summary,
-        :title,
-        :url,
         :short_link,
+        :summary,
+        :url,
 
         # Indicates whether or not the Coupon will be actively pushed to customer 
         # devices, or if it is a passive coupon.
-        :push_enabled
+        :push_enabled,
+        :title
       ]
       attr_accessor *PROPERTY_NAMES
 

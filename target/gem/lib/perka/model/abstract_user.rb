@@ -15,7 +15,6 @@ module Perka
         # A user's role is used to control access to API endpoints and model properties.
         :role,
         :crypted_password,
-        :salt,
         :email,
         :first_name,
         :last_action_at,
@@ -24,6 +23,7 @@ module Perka
         :new_password_confirmation,
         :phone,
         :phone_confirmation_code,
+        :salt,
 
         # Users whose email addresses have not been confirmed via a click-to-confirm 
         # email will have this field populated. Multiple user entities may share 

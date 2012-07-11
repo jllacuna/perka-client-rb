@@ -8,8 +8,8 @@ module Perka
     class UserLogin < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
-        :password,
-        :email
+        :email,
+        :password
       ]
       attr_accessor *PROPERTY_NAMES
 

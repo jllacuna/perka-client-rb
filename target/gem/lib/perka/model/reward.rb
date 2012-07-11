@@ -12,15 +12,15 @@ module Perka
     class Reward < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :type,
-        :merchant,
         :customer,
+        :merchant,
         :program,
         :punches_earned,
         :reward_advancements,
-        :redeemed_at,
         :activated_at,
-        :transferred_at
+        :redeemed_at,
+        :transferred_at,
+        :type
       ]
       attr_accessor *PROPERTY_NAMES
 

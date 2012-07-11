@@ -10,8 +10,8 @@ module Perka
     class MerchantCapability < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :type,
         :merchant,
+        :type,
         :count
       ]
       attr_accessor *PROPERTY_NAMES

@@ -9,13 +9,13 @@ module Perka
     class MerchantDevice < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :serial_number,
-        :identifier,
         :merchant_location,
-        :model,
+        :serial_number,
         :make,
         :os_version,
-        :platform
+        :platform,
+        :model,
+        :identifier
       ]
       attr_accessor *PROPERTY_NAMES
 

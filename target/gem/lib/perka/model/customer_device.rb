@@ -9,13 +9,13 @@ module Perka
     class CustomerDevice < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :identifier,
-        :admin,
         :customer,
-        :model,
+        :admin,
         :make,
         :os_version,
-        :platform
+        :platform,
+        :model,
+        :identifier
       ]
       attr_accessor *PROPERTY_NAMES
 

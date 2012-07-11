@@ -9,13 +9,13 @@ module Perka
     class Type < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
-        :name,
         :json_kind,
         :enum_values,
         :list_element,
         :map_key,
         :map_value,
-        :type_hint
+        :type_hint,
+        :name
       ]
       attr_accessor *PROPERTY_NAMES
 

@@ -11,14 +11,14 @@ module Perka
     class Visit < BaseEntityGlobal
 
       PROPERTY_NAMES = [
+        :customer,
+
+        # Where the Visit occurred.
+        :merchant_location,
 
         # Indicates that the Visit was created via the SMS endpoint and not from 
         # an app.
         :sms,
-
-        # Where the Visit occurred.
-        :merchant_location,
-        :customer,
 
         # The punches earned during the Visit, broken out by <entityReference payloadName='reward'> 
         # Reward</entityReference>.
