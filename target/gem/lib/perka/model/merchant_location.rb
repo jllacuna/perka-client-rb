@@ -17,12 +17,16 @@ module Perka
         # Used to implicitly concatenate the <code>address</code> and <code>address2</code> 
         # fields in a friendly format.
         :combined_address,
+        :coupon_visibilities,
         :distance_in_meters,
         :latitude,
         :longitude,
+        :merchant_devices,
         :neighborhood_name,
+        :resolved_facebook_id,
         :sms_id,
-        :street_address
+        :street_address,
+        :geo_location
       ]
       attr_accessor *PROPERTY_NAMES
 

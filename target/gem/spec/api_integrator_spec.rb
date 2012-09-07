@@ -1,12 +1,12 @@
 require 'perka'
 
-#INTEGRATOR_ID = 'e475e342-a542-11e1-9f8d-cde92706a93d'
-#INTEGRATOR_SECRET = 'integrator'
-#API_BASE = 'http://localhost'
+INTEGRATOR_ID = 'e475e342-a542-11e1-9f8d-cde92706a93d'
+INTEGRATOR_SECRET = 'integrator'
+API_BASE = 'http://localhost'
 
-INTEGRATOR_ID = '44ff7a20-cb63-11e1-9b23-0800200c9a66'
-INTEGRATOR_SECRET = 'foobar'
-API_BASE = 'https://sandbox.getperka.com'
+#INTEGRATOR_ID = '44ff7a20-cb63-11e1-9b23-0800200c9a66'
+#INTEGRATOR_SECRET = 'foobar'
+#API_BASE = 'https://sandbox.getperka.com'
 
 describe Perka::PerkaApi do
   context "as an integrator user" do
@@ -20,7 +20,7 @@ describe Perka::PerkaApi do
           :entity_module => Perka::Model
         }),
         :server_base => API_BASE,
-        :verbose => true
+        :verbose => true 
       })
       @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
     end
@@ -90,7 +90,7 @@ describe Perka::PerkaApi do
       # describe_type_uuid_get endpoint is an exception to this rule, and will 
       # always peform a deep serialization of the entity being described.  We'll 
       # now describe our merchant to gain access to our location and program data.
-      merchant = @api.describe_type_uuid_get("merchant",merchant.uuid).execute
+      merchant = @api.describe_entity_get(merchant).execute
       
       # The merchant's locations should now be populated
       location = merchant.merchant_locations.first
@@ -184,7 +184,27 @@ describe Perka::PerkaApi do
       rewards.first.activated_at.should be_nil
       rewards.first.redeemed_at.should be_nil
       rewards.first.punches_earned.should eq(2)
+    end
+    
+    it "annotate entities with arbitrary JSON data" do
+      @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
+      
+      # first we'll grab a reference to one of our managed merchants
+      merchants = @api.integrator_managed_merchants_get.execute
+      merchant = merchants.first
+      
+      # then apply an arbitrary annotation to the merchant
+      json = "{'foo':'bar'}"
+      @api.annotation_put(Perka::Model::EntityAnnotation.new({
+        :annotation => json,
+        :entity => merchant
+      })).execute
+      
+      # This annotation can be retreived at any time
+      annotation = @api.annotation_entity_get(merchant).execute
+      annotation.annotation.should eq(json)
       
     end
+    
   end
 end

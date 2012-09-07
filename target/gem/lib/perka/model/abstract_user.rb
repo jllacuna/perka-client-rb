@@ -26,7 +26,8 @@ module Perka
         # the same unconfirmed email address. When the address is confirmed, these 
         # entities will be merged.
         :unconfirmed_email,
-        :unconfirmed_phone
+        :unconfirmed_phone,
+        :password_set
       ]
       attr_accessor *PROPERTY_NAMES
 

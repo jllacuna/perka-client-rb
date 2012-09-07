@@ -11,8 +11,8 @@ module Perka
     class CompositeTarget < CouponTarget
 
       PROPERTY_NAMES = [
-        :operation,
-        :children
+        :children,
+        :operation
       ]
       attr_accessor *PROPERTY_NAMES
 

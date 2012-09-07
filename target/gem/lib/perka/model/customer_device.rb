@@ -5,14 +5,11 @@ require 'perka/model/base_entity_global'
 module Perka
   module Model 
 
-    # Represents a customer's preference to have a specific social event posted 
-    # to a specific social backend.
-    class SocialServiceSubscription < BaseEntityGlobal
+    # Represents a smartphone device associated with a specific Customer.
+    class CustomerDevice < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :customer,
-        :social_service,
-        :social_action
+        :customer
       ]
       attr_accessor *PROPERTY_NAMES
 

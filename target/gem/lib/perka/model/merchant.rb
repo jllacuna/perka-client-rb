@@ -9,14 +9,18 @@ module Perka
     class Merchant < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :program_tiers,
+        :name,
+        :last_action_at,
         :visit_expiration_minutes,
+        :program_tiers,
         :merchant_state,
-        :headline,
-        :merchant_locations,
-        :terms,
         :sales_demo,
-        :name
+        :headline,
+        :merchant_capabilities,
+        :merchant_locations,
+        :merchant_users,
+        :notes,
+        :terms
       ]
       attr_accessor *PROPERTY_NAMES
 

@@ -5,6 +5,18 @@ module Perka
   class ClientApi < Flatpack::Client::BaseApi
     include Flatpack::Core::MapInitialize
 
+    # Returns the manifest of perk icon names.
+    def asset_manifest_perks_get
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/asset/manifest/perks")
+      to_return
+    end
+
+    # Find an annotation applied to a persistent entity.
+    def annotation_type_uuid_get(type, uuid)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/annotation/{type}/{uuid}", type, uuid)
+      to_return
+    end
+
     # Performs a deep serialization of an entity. This endpoint is intended to provide 
     # supplementary one-to-many relationship data that is not normally serialized 
     # to keep payload sizes manageable.
@@ -33,6 +45,16 @@ module Perka
       to_return
     end
 
+    # Add or replace an annotation applied to a persistent entity. If the value 
+    # of <entityReference payloadName='entityAnnotation'> EntityAnnotation</entityReference> 
+    # is missing or <code>null</code>, the annotation will be removed. This method 
+    # will return the previously-stored annotation, if any.
+    def annotation_put(entity)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/annotation")
+      to_return.entity = entity
+      to_return
+    end
+
     # Creates a new customer associated with the current <entityReference payloadName='integratorUser'> 
     # IntegratorUser</entityReference>, or returns an existing customer if a matching 
     # customer already exists. The given <entityReference payloadName='userCredentials'> 
@@ -50,6 +72,12 @@ module Perka
     # </ul>
     def integrator_customer_post(entity)
       to_return = Flatpack::Client::FlatpackRequest.new(self, "POST", "/api/2/integrator/customer")
+      to_return.entity = entity
+      to_return
+    end
+
+    def integrator_merchant_post(entity)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "POST", "/api/2/integrator/merchant")
       to_return.entity = entity
       to_return
     end
