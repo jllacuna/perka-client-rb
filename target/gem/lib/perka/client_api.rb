@@ -11,12 +11,6 @@ module Perka
       to_return
     end
 
-    # Find an annotation applied to a persistent entity.
-    def annotation_type_uuid_get(type, uuid)
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/annotation/{type}/{uuid}", type, uuid)
-      to_return
-    end
-
     # Performs a deep serialization of an entity. This endpoint is intended to provide 
     # supplementary one-to-many relationship data that is not normally serialized 
     # to keep payload sizes manageable.
@@ -25,10 +19,26 @@ module Perka
       to_return
     end
 
+    # Find an annotation applied to a persistent entity.
+    def annotation_type_uuid_get(type, uuid)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/annotation/{type}/{uuid}", type, uuid)
+      to_return
+    end
+
     # Provides a machine-readable description of an entity type per the logged-in 
     # role.
     def describe_type_get(type)
       to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/describe/{type}", type)
+      to_return
+    end
+
+    # Add or replace an annotation applied to a persistent entity. If the value 
+    # of <entityReference payloadName='entityAnnotation'> EntityAnnotation</entityReference> 
+    # is missing or <code>null</code>, the annotation will be removed. This method 
+    # will return the previously-stored annotation, if any.
+    def annotation_put(entity)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/annotation")
+      to_return.entity = entity
       to_return
     end
 
@@ -42,16 +52,6 @@ module Perka
     # code, login token, session token, or refresh token.
     def describe_token_get
       to_return = DescribeTokenGet.new(self)
-      to_return
-    end
-
-    # Add or replace an annotation applied to a persistent entity. If the value 
-    # of <entityReference payloadName='entityAnnotation'> EntityAnnotation</entityReference> 
-    # is missing or <code>null</code>, the annotation will be removed. This method 
-    # will return the previously-stored annotation, if any.
-    def annotation_put(entity)
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/annotation")
-      to_return.entity = entity
       to_return
     end
 

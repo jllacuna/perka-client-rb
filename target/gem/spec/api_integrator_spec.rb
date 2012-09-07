@@ -200,11 +200,11 @@ describe Perka::PerkaApi do
         :entity => merchant
       })).execute
       
-      # This annotation can be retreived at any time
+      # which can be retreived at any time
       annotation = @api.annotation_entity_get(merchant).execute
       annotation.annotation.should eq(json)
-      
     end
     
   end
+  
 end

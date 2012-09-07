@@ -1,8 +1,8 @@
 # Generated File - DO NOT EDIT
 
 require "perka/client_api"
-require "perka/model/entity_annotation"
 require "perka/model/base_entity_global"
+require "perka/model/entity_annotation"
 require "perka/model/property"
 require "perka/model/api_description"
 require "perka/model/user_credentials"
