@@ -1,12 +1,14 @@
 #!/usr/bin/env rake
 require 'rake/testtask'
 
+API_SRC = "https://getperka.com/api/2/describe"
 SRC_DIR = "#{File.dirname(__FILE__)}/src"
 OUTPUT_DIR = "#{File.dirname(__FILE__)}/target"
 FLATPACK_OUTPUT_DIR = "#{OUTPUT_DIR}/generated"
 GEM_OUTPUT_DIR = "#{OUTPUT_DIR}/gem"
 
-FAST_VERSION = '2.8-SNAPSHOT'
+# Defalt to the most recently released version. Use LATEST for bleeding-edge.
+FAST_VERSION = 'RELEASE'
 FAST_JAR = "#{OUTPUT_DIR}/fast.jar"
 
 task :clean do
@@ -34,7 +36,7 @@ task :gen do
       --RbDialect.gemName perka \
       --RbDialect.moduleName Perka \
       --RbDialect.modelModuleName Model \
-      generate --in http://localhost/api/2/describe --dialect rb --out #{OUTPUT_DIR} $@`
+      generate --in #{API_SRC} --dialect rb --out #{OUTPUT_DIR} $@`
 end
 
 desc "Combines the generated flatpack code with our local code in the gem output dir"
