@@ -15,11 +15,11 @@ module Perka
 
       PROPERTY_NAMES = [
 
-        # The custom data which may be any JSON value.
-        :annotation,
-
         # The target entity for the annotation.
-        :entity
+        :entity,
+
+        # The custom data which may be any JSON value.
+        :annotation
       ]
       attr_accessor *PROPERTY_NAMES
 

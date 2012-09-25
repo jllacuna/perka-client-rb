@@ -1,12 +1,12 @@
 require 'perka'
 
-INTEGRATOR_ID = 'e475e342-a542-11e1-9f8d-cde92706a93d'
-INTEGRATOR_SECRET = 'integrator'
-API_BASE = 'http://localhost'
+#INTEGRATOR_ID = 'e475e342-a542-11e1-9f8d-cde92706a93d'
+#INTEGRATOR_SECRET = 'integrator'
+#API_BASE = 'http://localhost'
 
-#INTEGRATOR_ID = '44ff7a20-cb63-11e1-9b23-0800200c9a66'
-#INTEGRATOR_SECRET = 'foobar'
-#API_BASE = 'https://sandbox.getperka.com'
+INTEGRATOR_ID = '44ff7a20-cb63-11e1-9b23-0800200c9a66'
+INTEGRATOR_SECRET = 'foobar'
+API_BASE = 'https://sandbox.getperka.com'
 
 describe Perka::PerkaApi do
   context "as an integrator user" do

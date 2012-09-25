@@ -10,15 +10,6 @@ module Perka
 
       PROPERTY_NAMES = [
 
-        # The HTTP method used to access the endpoint.
-        :method,
-
-        # The expected contents for the HTTP response.
-        :return_type,
-
-        # The path used to access the endpoint.
-        :path,
-
         # Describes any query parameters for the endpoint.
         :query_parameters,
 
@@ -33,7 +24,16 @@ module Perka
         # Return the role names that are allowed to access the endpoint. A <code>null</code> 
         # value means that all roles are allowed, while a zero-length value means 
         # that no roles are allowed.
-        :role_names
+        :role_names,
+
+        # The HTTP method used to access the endpoint.
+        :method,
+
+        # The expected contents for the HTTP response.
+        :return_type,
+
+        # The path used to access the endpoint.
+        :path
       ]
       attr_accessor *PROPERTY_NAMES
 

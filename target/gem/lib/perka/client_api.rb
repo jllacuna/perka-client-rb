@@ -11,6 +11,13 @@ module Perka
       to_return
     end
 
+    # Returns the current customer's PointsActivity status across all merchants 
+    # with a points-based loyalty system.
+    def customer_points_get
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/points")
+      to_return
+    end
+
     # Performs a deep serialization of an entity. This endpoint is intended to provide 
     # supplementary one-to-many relationship data that is not normally serialized 
     # to keep payload sizes manageable.
@@ -19,26 +26,10 @@ module Perka
       to_return
     end
 
-    # Find an annotation applied to a persistent entity.
-    def annotation_type_uuid_get(type, uuid)
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/annotation/{type}/{uuid}", type, uuid)
-      to_return
-    end
-
     # Provides a machine-readable description of an entity type per the logged-in 
     # role.
     def describe_type_get(type)
       to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/describe/{type}", type)
-      to_return
-    end
-
-    # Add or replace an annotation applied to a persistent entity. If the value 
-    # of <entityReference payloadName='entityAnnotation'> EntityAnnotation</entityReference> 
-    # is missing or <code>null</code>, the annotation will be removed. This method 
-    # will return the previously-stored annotation, if any.
-    def annotation_put(entity)
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/annotation")
-      to_return.entity = entity
       to_return
     end
 
@@ -52,6 +43,22 @@ module Perka
     # code, login token, session token, or refresh token.
     def describe_token_get
       to_return = DescribeTokenGet.new(self)
+      to_return
+    end
+
+    # Find an annotation applied to a persistent entity.
+    def annotation_type_uuid_get(type, uuid)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/annotation/{type}/{uuid}", type, uuid)
+      to_return
+    end
+
+    # Add or replace an annotation applied to a persistent entity. If the value 
+    # of <entityReference payloadName='entityAnnotation'> EntityAnnotation</entityReference> 
+    # is missing or <code>null</code>, the annotation will be removed. This method 
+    # will return the previously-stored annotation, if any.
+    def annotation_put(entity)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/annotation")
+      to_return.entity = entity
       to_return
     end
 
@@ -132,6 +139,17 @@ module Perka
       to_return
     end
 
+    # Rewrites the history of a customer's latest validated visit to a merchant. 
+    # The <entityReference payloadName='abstractRewardConfirmation'> AbstractRewardConfirmation</entityReference> 
+    # instances associated with the <entityReference payloadName='visitConfirmation'> 
+    # VisitConfirmation</entityReference> should reflect the desired state of the 
+    # Visit. <p> This method will return the updated Visit.
+    def customer_visit_amend_put(entity)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/customer/visit/amend")
+      to_return.entity = entity
+      to_return
+    end
+
     # Creates a new outstanding visit for the current customer at the given location. 
     # If the customer has no active Rewards at the associated merchant, a new Reward 
     # will be created for each of the merchant's programs. Information about the 
@@ -144,9 +162,10 @@ module Perka
 
     # Returns a sparse list of visits at the current merchant location that are 
     # un-validated, or that occurred after the time of the most recent validated 
-    # visit given
+    # visit given. This request must be made with a anonymous clerk role that corresponds 
+    # to exactly one MerchantLocation.
     def customer_visit_get
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/visit")
+      to_return = CustomerVisitGet.new(self)
       to_return
     end
 
@@ -203,6 +222,23 @@ module Perka
       # A UUID allocated by the server
       def with_customer_uuid(customer_uuid)
         query_parameter('customerUuid', customer_uuid);
+      end
+
+    end
+
+    class CustomerVisitGet < Flatpack::Client::FlatpackRequest
+
+      def initialize(api, *args)
+        super(api, "GET", "/api/2/customer/visit", *args)
+      end
+
+      # By default, requests to this endpoint will hang for a period of time before 
+      # returning in order to wait for a visit associated with the location to be 
+      # created or updated. Setting this query parameter to <code>true</code> will 
+      # disable the hanging get behavior, which is appropriate for requests used 
+      # for first-time UI initialization.
+      def with_fast_poll(fast_poll)
+        query_parameter('fastPoll', fast_poll);
       end
 
     end

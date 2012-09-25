@@ -14,6 +14,10 @@ module Perka
         :merchant,
         :timezone,
 
+        # The named Clerks which are allowed to operate on the MerchantLocation. 
+        # This relationship is owned by the Clerk object.
+        :clerks,
+
         # Used to implicitly concatenate the <code>address</code> and <code>address2</code> 
         # fields in a friendly format.
         :combined_address,

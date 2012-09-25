@@ -9,8 +9,8 @@ module Perka
 
       PROPERTY_NAMES = [
         :merchant_location,
-        :coupon_target,
         :coupon,
+        :coupon_target,
         :coupon_target_type
       ]
       attr_accessor *PROPERTY_NAMES

@@ -10,12 +10,13 @@ module Perka
     class ProgramTier < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :name,
         :merchant,
         :programs,
         :tier_traversals,
+        :additional_perks,
+        :points_multiplier,
         :visits_needed,
-        :additional_perks
+        :name
       ]
       attr_accessor *PROPERTY_NAMES
 

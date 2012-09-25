@@ -14,9 +14,9 @@ module Perka
     class ProgramType < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :name,
         :expires_at,
         :stamp_id,
+        :name,
         :expires_in
       ]
       attr_accessor *PROPERTY_NAMES
