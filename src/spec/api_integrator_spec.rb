@@ -203,8 +203,19 @@ describe Perka::PerkaApi do
       # which can be retreived at any time
       annotation = @api.annotation_entity_get(merchant).execute
       annotation.annotation.should eq(json)
+
+      # now we'll update our annotation to a new value
+      json = "{'bar':'baz'}"
+      @api.annotation_put(Perka::Model::EntityAnnotation.new({
+        :annotation => json,
+        :entity => merchant
+      })).execute
+      
+      # and verify the update
+      annotation = @api.annotation_entity_get(merchant).execute
+      annotation.annotation.should eq(json)
     end
-    
+
   end
   
 end
