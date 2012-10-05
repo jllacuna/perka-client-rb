@@ -9,13 +9,13 @@ module Perka
     class EntityDescription < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
+        :supertype,
 
         # Indicates that instance of the the type may be persisted by the server. 
         # This hint can be used to reduce payload sizes by transmitting only mutated 
         # properties.
         :persistent,
         :doc_string,
-        :supertype,
         :properties,
         :type_name
       ]

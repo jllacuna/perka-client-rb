@@ -10,14 +10,15 @@ module Perka
 
       PROPERTY_NAMES = [
         :last_action_at,
-        :program_tiers,
         :visit_expiration_minutes,
+        :program_tiers,
         :merchant_locations,
-        :loyalty_type,
 
         # A list of Clerks, which are limited to acting on specific locations.
         :clerks,
         :merchant_state,
+        :loyalty_type,
+        :sales_demo,
         :headline,
         :merchant_capabilities,
         :merchant_users,
@@ -31,7 +32,7 @@ module Perka
         # up.
         :points_signup_bonus,
         :terms,
-        :sales_demo,
+        :website_url,
         :name
       ]
       attr_accessor *PROPERTY_NAMES

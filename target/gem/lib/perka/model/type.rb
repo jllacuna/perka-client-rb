@@ -9,8 +9,8 @@ module Perka
     class Type < Flatpack::Core::BaseHasUuid
 
       PROPERTY_NAMES = [
-        :json_kind,
         :enum_values,
+        :json_kind,
         :list_element,
         :map_key,
         :map_value,

@@ -22,12 +22,13 @@ module Perka
         # that owns the clerk account.
         :merchant,
 
-        # The locations that the clerk is allowed to interact with.
-        :merchant_locations,
-
         # Indicates if the Clerk is an anonymous role account used by a validator 
         # application at a single location.
-        :anonymous
+        :anonymous,
+
+        # The locations that the clerk is allowed to interact with.
+        :merchant_locations,
+        :outbound_messages
       ]
       attr_accessor *PROPERTY_NAMES
 

@@ -12,8 +12,8 @@ module Perka
     class TierTraversal < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :customer,
         :program_tier,
+        :customer,
         :visit_count
       ]
       attr_accessor *PROPERTY_NAMES

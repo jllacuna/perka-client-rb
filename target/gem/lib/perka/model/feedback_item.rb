@@ -11,9 +11,9 @@ module Perka
       PROPERTY_NAMES = [
         :visit,
         :rating,
+        :signed,
         :customer_name,
         :feedback,
-        :signed,
         :visit_uuid
       ]
       attr_accessor *PROPERTY_NAMES

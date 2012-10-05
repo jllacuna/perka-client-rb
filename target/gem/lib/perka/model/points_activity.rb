@@ -15,8 +15,8 @@ module Perka
 
         # The number of points that were redeemed
         :charge,
-        :next_activity,
-        :redeemed
+        :redeemed,
+        :next_activity
       ]
       attr_accessor *PROPERTY_NAMES
 

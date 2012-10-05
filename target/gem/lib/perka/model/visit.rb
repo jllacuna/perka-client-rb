@@ -11,14 +11,18 @@ module Perka
     class Visit < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :customer,
-
-        # Where the Visit occurred.
-        :merchant_location,
 
         # Indicates that the Visit was created via the SMS endpoint and not from 
         # an app.
         :sms,
+
+        # Where the Visit occurred.
+        :merchant_location,
+        :customer,
+
+        # The punches earned during the Visit, broken out by <entityReference payloadName='reward'> 
+        # Reward</entityReference>.
+        :reward_advancements,
 
         # The latest <entityReference payloadName='pointsActivity'> PointsActivity</entityReference> 
         # for the Visit's <entityReference payloadName='customer'> Customer</entityReference> 
@@ -26,10 +30,6 @@ module Perka
         # This may be null if the customer has no previous points activity at the 
         # merchant.
         :current_points_activity,
-
-        # The punches earned during the Visit, broken out by <entityReference payloadName='reward'> 
-        # Reward</entityReference>.
-        :reward_advancements,
 
         # The time at which the visit was confirmed by the clerk.
         :validated_at,
@@ -39,7 +39,10 @@ module Perka
         :coupon_redemptions,
 
         # Any feedback left by the Customer after the Visit was validated.
-        :feedback_item
+        :feedback_item,
+
+        # The PointsActivities associated with the visit.
+        :points_activities
       ]
       attr_accessor *PROPERTY_NAMES
 

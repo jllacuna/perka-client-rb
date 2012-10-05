@@ -12,8 +12,8 @@ module Perka
     class Reward < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :customer,
         :merchant,
+        :customer,
         :program,
         :punches_earned,
         :reward_advancements,
