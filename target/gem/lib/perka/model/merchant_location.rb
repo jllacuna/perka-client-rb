@@ -29,7 +29,6 @@ module Perka
         :neighborhood_name,
         :resolved_facebook_id,
         :sms_id,
-        :street_address,
         :geo_location
       ]
       attr_accessor *PROPERTY_NAMES
