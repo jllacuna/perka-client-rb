@@ -15,6 +15,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/merchant_location'
       require 'perka/model/coupon_target'
       require 'perka/model/coupon'

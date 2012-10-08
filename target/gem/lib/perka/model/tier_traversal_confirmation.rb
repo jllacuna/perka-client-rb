@@ -18,6 +18,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/program_tier'
       TYPE_MAP = {
         :program_tier => Perka::Model::ProgramTier

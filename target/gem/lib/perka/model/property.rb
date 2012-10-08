@@ -53,6 +53,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/type'
       require 'perka/model/property'
       TYPE_MAP = {

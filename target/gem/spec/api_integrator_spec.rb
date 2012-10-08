@@ -214,8 +214,20 @@ describe Perka::PerkaApi do
       # and verify the update
       annotation = @api.annotation_entity_get(merchant).execute
       annotation.annotation.should eq(json)
-    end
 
+      # let's also attempt to annotate an entity with at least one embedded property 
+      merchant = @api.describe_entity_get(merchant).execute
+      location = merchant.merchant_locations.first
+      json = "{'foo':'bar'}"
+      @api.annotation_put(Perka::Model::EntityAnnotation.new({
+        :annotation => json,
+        :entity => location
+      })).execute
+      
+      # which can be retreived at any time
+      annotation = @api.annotation_entity_get(location).execute
+      annotation.annotation.should eq(json)
+
+    end
   end
-  
 end

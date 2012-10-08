@@ -13,6 +13,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/customer'
       TYPE_MAP = {
         :customer => Perka::Model::Customer

@@ -34,6 +34,11 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+      EMBEDDED_PROPERTY_NAMES = [
+        :street_address
+      ]
+      attr_accessor *EMBEDDED_PROPERTY_NAMES
+
       require 'perka/model/street_address'
       require 'perka/model/merchant'
       TYPE_MAP = {

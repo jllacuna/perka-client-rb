@@ -14,6 +14,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/visit'
       require 'perka/model/coupon'
       TYPE_MAP = {

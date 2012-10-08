@@ -18,6 +18,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/reward'
       require 'perka/model/visit'
       TYPE_MAP = {

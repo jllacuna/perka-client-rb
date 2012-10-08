@@ -21,6 +21,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/entity_description'
       TYPE_MAP = {
         :supertype => Perka::Model::EntityDescription

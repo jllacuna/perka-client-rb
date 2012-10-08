@@ -20,6 +20,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/points_catalog_item'
       require 'perka/model/points_activity'
       require 'perka/model/visit'

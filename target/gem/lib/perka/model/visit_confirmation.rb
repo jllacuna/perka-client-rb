@@ -33,6 +33,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/merchant'
       require 'perka/model/visit'
       require 'perka/model/customer'

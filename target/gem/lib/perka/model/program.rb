@@ -23,6 +23,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/program_tier'
       require 'perka/model/program_type'
       TYPE_MAP = {

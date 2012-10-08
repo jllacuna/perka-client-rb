@@ -16,6 +16,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/coupon'
       TYPE_MAP = {
         :coupon => Perka::Model::Coupon

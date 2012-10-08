@@ -23,6 +23,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/base_entity_global'
       TYPE_MAP = {
         :entity => Perka::Model::BaseEntityGlobal

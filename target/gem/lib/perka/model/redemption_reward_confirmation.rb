@@ -16,6 +16,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/reward'
       TYPE_MAP = {
         :reward => Perka::Model::Reward

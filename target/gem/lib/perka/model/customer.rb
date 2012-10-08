@@ -29,6 +29,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/merchant_location'
       require 'perka/model/integrator_user'
       TYPE_MAP = {

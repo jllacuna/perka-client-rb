@@ -18,6 +18,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/merchant'
       require 'perka/model/composite_target'
       TYPE_MAP = {

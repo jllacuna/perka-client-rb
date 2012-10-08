@@ -24,6 +24,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/merchant'
       require 'perka/model/program'
       require 'perka/model/customer'

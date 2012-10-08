@@ -18,6 +18,7 @@ module Perka
       attr_accessor *PROPERTY_NAMES
 
 
+
     end
   end
 end

@@ -8,7 +8,8 @@ FLATPACK_OUTPUT_DIR = "#{OUTPUT_DIR}/generated"
 GEM_OUTPUT_DIR = "#{OUTPUT_DIR}/gem"
 
 # Defalt to the most recently released version. Use LATEST for bleeding-edge.
-FAST_VERSION = 'RELEASE'
+#FAST_VERSION = 'RELEASE'
+FAST_VERSION = '2.16-SNAPSHOT'
 FAST_JAR = "#{OUTPUT_DIR}/fast.jar"
 
 task :clean do

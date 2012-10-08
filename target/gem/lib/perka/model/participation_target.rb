@@ -24,6 +24,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/program_type'
       TYPE_MAP = {
         :program_type => Perka::Model::ProgramType

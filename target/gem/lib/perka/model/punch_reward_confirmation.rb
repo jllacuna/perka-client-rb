@@ -29,6 +29,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/program'
       require 'perka/model/visit'
       require 'perka/model/program_type'

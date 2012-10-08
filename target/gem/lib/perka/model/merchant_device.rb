@@ -19,6 +19,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/merchant_location'
       TYPE_MAP = {
         :merchant_location => Perka::Model::MerchantLocation

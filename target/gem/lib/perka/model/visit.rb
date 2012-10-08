@@ -46,6 +46,7 @@ module Perka
       ]
       attr_accessor *PROPERTY_NAMES
 
+
       require 'perka/model/feedback_item'
       require 'perka/model/points_activity'
       require 'perka/model/merchant_location'
