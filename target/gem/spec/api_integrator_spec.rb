@@ -16,11 +16,11 @@ describe Perka::PerkaApi do
       @api = Perka::PerkaApi.new({
         :flatpack => Flatpack::Core::Flatpack.new({
           :pretty => true, 
-          :verbose => true,
+          :verbose => false,
           :entity_module => Perka::Model
         }),
         :server_base => API_BASE,
-        :verbose => true 
+        :verbose => false 
       })
       @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
     end
@@ -128,7 +128,7 @@ describe Perka::PerkaApi do
       advancement.reward.punches_earned.should eq(2)
       
       # We'll now pull down the customer's reward status
-      rewards = @api.customer_reward_get.with_customer_uuid(customer.uuid).execute
+      rewards = @api.customer_uuid_get(customer.uuid).execute.rewards
       
       # We should have only one non-activated, non-redeemed reward with 2 punches
       rewards.length.should eq(1)
@@ -150,7 +150,7 @@ describe Perka::PerkaApi do
       })).execute
       
       # The customer should now one activated, and one non-activated reward
-      rewards = @api.customer_reward_get.with_customer_uuid(customer.uuid).execute
+      rewards = @api.customer_uuid_get(customer.uuid).execute.rewards
       rewards.length.should eq(2)
       active_reward = rewards.detect {|r| r.activated_at }
       active_reward.activated_at.should_not be_nil
@@ -179,11 +179,54 @@ describe Perka::PerkaApi do
       
       # The customer status should now show just one non-active 
       # reward with 2 punches
-      rewards = @api.customer_reward_get.with_customer_uuid(customer.uuid).execute
+      rewards = @api.customer_uuid_get(customer.uuid).execute.rewards
       rewards.length.should eq(1)
       rewards.first.activated_at.should be_nil
       rewards.first.redeemed_at.should be_nil
       rewards.first.punches_earned.should eq(2)
+    end
+
+    it "determines the status of an existing customer" do
+      @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
+
+      # first set up our existing customer
+      cred = Perka::Model::UserCredentials.new(:email => 'joe+yet_another@getperka.com')
+      existing_customer = @api.integrator_customer_post(cred).execute
+      merchants = @api.integrator_managed_merchants_get.execute
+      merchant = @api.describe_entity_get(merchants.first).execute
+      location = merchant.merchant_locations.first
+      program_type = merchant.program_tiers.first.programs.first.program_type
+
+      # switch over to the clerk role
+      @api = @api.oauth_integrator_become("CLERK", location.uuid)
+
+      # and fetch our customer. The customer_uuid_get endpoint will
+      # populate the resulting customer with reward, tier_traversal, and 
+      # available coupon information
+      customer = @api.customer_uuid_get(existing_customer.uuid).execute
+
+      # since this customer doesn't have any visits yet, there should be
+      # no tier_traversal or reward information
+      customer.tier_traversals.should be_nil
+      customer.rewards.should be_nil
+
+      # let's go ahaead and create a visit
+      visit = @api.customer_reward_put(Perka::Model::RewardGrant.new({
+        :customer => customer,
+        :reward_confirmations => [
+          Perka::Model::PunchRewardConfirmation.new({
+            :program_type => program_type,
+            :punches_earned => 1
+          })
+        ]
+      })).execute
+
+      # Note that since the most recent tierTraversal can be expected in the 
+      # response, the visit can be used to check the customer's current status
+      # at the merchant. In this case, our customer should be in the 
+      # lowest 'local' tier.
+      visit.customer.tier_traversals.length.should eq(1)
+      visit.customer.tier_traversals.first.program_tier.name.should eq('local')
     end
     
     it "annotate entities with arbitrary JSON data" do

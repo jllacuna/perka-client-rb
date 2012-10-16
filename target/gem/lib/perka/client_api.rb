@@ -5,10 +5,52 @@ module Perka
   class ClientApi < Flatpack::Client::BaseApi
     include Flatpack::Core::MapInitialize
 
+    # Returns the manifest of perk icon names.
+    def asset_manifest_perks_get
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/asset/manifest/perks")
+      to_return
+    end
+
+    # Retrieves the customer associated with the given uuid. The response will include 
+    # reward and tierTraversal information for the merchant associated with the 
+    # logged in clerk or merchantUser.
+    def customer_uuid_get(uuid)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/{uuid}", uuid)
+      to_return
+    end
+
     # Returns the current customer's PointsActivity status across all merchants 
     # with a points-based loyalty system.
     def customer_points_get
       to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/points")
+      to_return
+    end
+
+    # Performs a deep serialization of an entity. This endpoint is intended to provide 
+    # supplementary one-to-many relationship data that is not normally serialized 
+    # to keep payload sizes manageable.
+    def describe_type_uuid_get(type, uuid)
+      to_return = DescribeTypeUuidGet.new(self, type, uuid)
+      to_return
+    end
+
+    # Provides a machine-readable description of an entity type per the logged-in 
+    # role.
+    def describe_type_get(type)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/describe/{type}", type)
+      to_return
+    end
+
+    # Returns a description of the methods and entity types used by the API server.
+    def describe_get
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/describe")
+      to_return
+    end
+
+    # A diagnostic endpoint to extract the information from an OAuth2 authorization 
+    # code, login token, session token, or refresh token.
+    def describe_token_get
+      to_return = DescribeTokenGet.new(self)
       to_return
     end
 
@@ -90,15 +132,10 @@ module Perka
       to_return
     end
 
-    # Allows a <entityReference payloadName='customer'> Customer's</entityReference> 
-    # reward status to be retrieved. Customers may be searched for by UUID.
-    def customer_reward_get
-      to_return = CustomerRewardGet.new(self)
-      to_return
-    end
-
-    # Reward a Customer. This method will implicitly create a <entityReference payloadName='visit'> 
-    # Visit</entityReference> which will be returned.
+    # Rewards a Customer. This method will implicitly create a <entityReference 
+    # payloadName='visit'> Visit</entityReference> which will be returned. The response 
+    # will also include any s manipulated by this visit, as well as the customer's 
+    # most recent @{link TierTraversal} at the associated @{link Merchant}
     def customer_reward_put(entity)
       to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/customer/reward")
       to_return.entity = entity
@@ -150,51 +187,31 @@ module Perka
       to_return
     end
 
-    # Performs a deep serialization of an entity. This endpoint is intended to provide 
-    # supplementary one-to-many relationship data that is not normally serialized 
-    # to keep payload sizes manageable.
-    def describe_type_uuid_get(type, uuid)
-      to_return = DescribeTypeUuidGet.new(self, type, uuid)
-      to_return
-    end
-
-    # Provides a machine-readable description of an entity type per the logged-in 
-    # role.
-    def describe_type_get(type)
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/describe/{type}", type)
-      to_return
-    end
-
-    # Returns a description of the methods and entity types used by the API server.
-    def describe_get
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/describe")
-      to_return
-    end
-
-    # A diagnostic endpoint to extract the information from an OAuth2 authorization 
-    # code, login token, session token, or refresh token.
-    def describe_token_get
-      to_return = DescribeTokenGet.new(self)
-      to_return
-    end
-
-    # Returns the manifest of perk icon names.
-    def asset_manifest_perks_get
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/asset/manifest/perks")
-      to_return
-    end
-
     private
 
-    class CustomerRewardGet < Flatpack::Client::FlatpackRequest
+    class DescribeTypeUuidGet < Flatpack::Client::FlatpackRequest
 
       def initialize(api, *args)
-        super(api, "GET", "/api/2/customer/reward", *args)
+        super(api, "GET", "/api/2/describe/{type}/{uuid}", *args)
       end
 
-      # A UUID allocated by the server
-      def with_customer_uuid(customer_uuid)
-        query_parameter('customerUuid', customer_uuid);
+      # An ISO8601-formatted datetime that will be used to filter the entities in 
+      # the payload's data section to those that were created or updated after the 
+      # specified time
+      def with_last_modified(last_modified)
+        query_parameter('lastModified', last_modified);
+      end
+
+    end
+
+    class DescribeTokenGet < Flatpack::Client::FlatpackRequest
+
+      def initialize(api, *args)
+        super(api, "GET", "/api/2/describe/token", *args)
+      end
+
+      def with_token(token)
+        query_parameter('token', token);
       end
 
     end
@@ -224,33 +241,6 @@ module Perka
 
       def with_most_recent_validated_uuid(most_recent_validated_uuid)
         query_parameter('mostRecentValidatedUuid', most_recent_validated_uuid);
-      end
-
-    end
-
-    class DescribeTypeUuidGet < Flatpack::Client::FlatpackRequest
-
-      def initialize(api, *args)
-        super(api, "GET", "/api/2/describe/{type}/{uuid}", *args)
-      end
-
-      # An ISO8601-formatted datetime that will be used to filter the entities in 
-      # the payload's data section to those that were created or updated after the 
-      # specified time
-      def with_last_modified(last_modified)
-        query_parameter('lastModified', last_modified);
-      end
-
-    end
-
-    class DescribeTokenGet < Flatpack::Client::FlatpackRequest
-
-      def initialize(api, *args)
-        super(api, "GET", "/api/2/describe/token", *args)
-      end
-
-      def with_token(token)
-        query_parameter('token', token);
       end
 
     end

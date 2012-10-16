@@ -1,7 +1,7 @@
 #!/usr/bin/env rake
 require 'rake/testtask'
 
-API_SRC = "https://getperka.com/api/2/describe"
+API_SRC = "https://sandbox.getperka.com/api/2/describe"
 SRC_DIR = "#{File.dirname(__FILE__)}/src"
 OUTPUT_DIR = "#{File.dirname(__FILE__)}/target"
 FLATPACK_OUTPUT_DIR = "#{OUTPUT_DIR}/generated"

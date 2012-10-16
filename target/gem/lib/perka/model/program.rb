@@ -18,8 +18,8 @@ module Perka
         :perk_id,
         :terms,
         :punches_needed_prefix,
-        :punches_needed_suffix,
-        :purchased_item
+        :purchased_item,
+        :punches_needed_suffix
       ]
       attr_accessor *PROPERTY_NAMES
 

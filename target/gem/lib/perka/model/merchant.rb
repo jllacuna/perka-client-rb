@@ -13,11 +13,11 @@ module Perka
         :visit_expiration_minutes,
         :program_tiers,
         :merchant_locations,
+        :loyalty_type,
 
         # A list of Clerks, which are limited to acting on specific locations.
         :clerks,
         :merchant_state,
-        :loyalty_type,
         :sales_demo,
         :headline,
         :merchant_capabilities,
