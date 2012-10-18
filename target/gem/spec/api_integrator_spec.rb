@@ -319,7 +319,6 @@ describe Perka::PerkaApi do
       new_amended_visit.customer.rewards.first.punches_earned.should eq(4)
       new_amended_visit.reward_advancements.length.should eq(1)
       new_amended_visit.reward_advancements.first.punches_earned.should eq(4)
-      new_amended_visit.merchant_location.uuid.should eq(location_two.uuid)
     end
     
     it "annotate entities with arbitrary JSON data" do
@@ -363,7 +362,60 @@ describe Perka::PerkaApi do
       # which can be retreived at any time
       annotation = @api.annotation_entity_get(location).execute
       annotation.annotation.should eq(json)
+    end
 
+    it "redeems a coupon" do
+      @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
+
+      # set up our existing customer
+      cred = Perka::Model::UserCredentials.new(:email => 'joe@getperka.com')
+      customer = @api.integrator_customer_post(cred).execute
+
+      # switch over to a clerk at the first location, and describe 
+      # our merchant
+      merchants = @api.integrator_managed_merchants_get.execute
+      merchant = @api.describe_entity_get(merchants.first).execute
+      location = merchant.merchant_locations.first
+      @api = @api.oauth_integrator_become("CLERK", location.uuid)
+
+      # each merchant location may have a set of coupon visibilites 
+      # enabling coupon(s) to be redeemed at that location.  This
+      # particular merchant has been set up with a standard coupon
+      # available to any customer visiting any of their locations.
+      available_coupons = location.coupon_visibilities.map {|cv| cv.coupon}
+      available_coupons.length.should eq(1)
+      coupon = available_coupons.first
+
+      # we can now specify that this coupon should be redeemed when 
+      # validating a visit.  We can also pass along some punches
+      # earned to be recoreded in the same transaction
+      program_type = merchant.program_tiers.first.programs.first.program_type
+      visit = @api.customer_reward_put(Perka::Model::RewardGrant.new({
+        :customer => customer,
+        :reward_confirmations => [
+          Perka::Model::PunchRewardConfirmation.new({
+            :program_type => program_type,
+            :punches_earned => 1
+          }),
+          Perka::Model::RedemptionCouponConfirmation.new({
+            :coupon => coupon
+          })
+        ]
+      })).execute
+
+      # confirm that the coupon has been redeemed by
+      # looking for an appropriate coupon redemption
+      # within the resulting visit
+      visit.coupon_redemptions.length.should eq(1)
+      coupon_redemption = visit.coupon_redemptions.first
+      coupon_redemption.coupon.uuid.should eq(coupon.uuid)
+
+      # our punches should be present 
+      visit.merchant_location.uuid.should eq(location.uuid)
+      visit.customer.rewards.length.should eq(1)
+      visit.customer.rewards.first.punches_earned.should eq(1)
+      visit.reward_advancements.length.should eq(1)
+      visit.reward_advancements.first.punches_earned.should eq(1)
     end
   end
 end

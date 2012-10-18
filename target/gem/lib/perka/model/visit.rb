@@ -34,12 +34,12 @@ module Perka
         # The time at which the visit was confirmed by the clerk.
         :validated_at,
 
-        # Any feedback left by the Customer after the Visit was validated.
-        :feedback_item,
-
         # The <entityReference payloadName='coupon'> Coupons</entityReference> that 
         # were redeemed during the visit.
         :coupon_redemptions,
+
+        # Any feedback left by the Customer after the Visit was validated.
+        :feedback_item,
 
         # The PointsActivities associated with the visit.
         :points_activities
