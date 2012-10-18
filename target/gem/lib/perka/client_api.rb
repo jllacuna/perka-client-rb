@@ -11,9 +11,12 @@ module Perka
       to_return
     end
 
-    # Retrieves the customer associated with the given uuid. The response will include 
-    # reward and tierTraversal information for the merchant associated with the 
-    # logged in clerk or merchantUser.
+    # Retrieves the <entityReference payloadName='customer'> Customer</entityReference> 
+    # associated with the given uuid. The response will include <entityReference 
+    # payloadName='reward'> Reward</entityReference> and <entityReference payloadName='tierTraversal'> 
+    # TierTraversal</entityReference> information for the <entityReference payloadName='merchant'> 
+    # Merchant</entityReference> associated with the logged in <entityReference 
+    # payloadName='clerk'> Clerk</entityReference> or .
     def customer_uuid_get(uuid)
       to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/{uuid}", uuid)
       to_return
@@ -146,7 +149,11 @@ module Perka
     # The <entityReference payloadName='abstractRewardConfirmation'> AbstractRewardConfirmation</entityReference> 
     # instances associated with the <entityReference payloadName='visitConfirmation'> 
     # VisitConfirmation</entityReference> should reflect the desired state of the 
-    # Visit. <p> This method will return the updated Visit.
+    # Visit. <p> This method will return the updated <entityReference payloadName='visit'> 
+    # Visit</entityReference> along with any <entityReference payloadName='tierTraversal'> 
+    # TierTraversal</entityReference>, <entityReference payloadName='rewardAdvancement'> 
+    # RewardAdvancement</entityReference>, or <entityReference payloadName='pointsActivity'> 
+    # PointsActivity</entityReference> that occurs.
     def customer_visit_amend_put(entity)
       to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/customer/visit/amend")
       to_return.entity = entity

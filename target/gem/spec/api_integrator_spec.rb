@@ -189,18 +189,17 @@ describe Perka::PerkaApi do
     it "determines the status of an existing customer" do
       @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
 
-      # first set up our existing customer
-      cred = Perka::Model::UserCredentials.new(:email => 'joe+yet_another@getperka.com')
+      # set up our existing customer
+      cred = Perka::Model::UserCredentials.new(:email => 'joe@getperka.com')
       existing_customer = @api.integrator_customer_post(cred).execute
+
+      # switch over to a clerk at the first location
       merchants = @api.integrator_managed_merchants_get.execute
       merchant = @api.describe_entity_get(merchants.first).execute
       location = merchant.merchant_locations.first
-      program_type = merchant.program_tiers.first.programs.first.program_type
-
-      # switch over to the clerk role
       @api = @api.oauth_integrator_become("CLERK", location.uuid)
 
-      # and fetch our customer. The customer_uuid_get endpoint will
+      # fetch our customer. The customer_uuid_get endpoint will
       # populate the resulting customer with reward, tier_traversal, and 
       # available coupon information
       customer = @api.customer_uuid_get(existing_customer.uuid).execute
@@ -211,6 +210,7 @@ describe Perka::PerkaApi do
       customer.rewards.should be_nil
 
       # let's go ahaead and create a visit
+      program_type = merchant.program_tiers.first.programs.first.program_type
       visit = @api.customer_reward_put(Perka::Model::RewardGrant.new({
         :customer => customer,
         :reward_confirmations => [
@@ -224,9 +224,102 @@ describe Perka::PerkaApi do
       # Note that since the most recent tierTraversal can be expected in the 
       # response, the visit can be used to check the customer's current status
       # at the merchant. In this case, our customer should be in the 
-      # lowest 'local' tier.
+      # lowest 'local' tier.  We do a simple name comparison here, but if you
+      # need to verify that a customer belongs to a particular tier, the tier 
+      # should be compared against one of those returned from a 
+      # describe_entity_get(merchant) request.
       visit.customer.tier_traversals.length.should eq(1)
       visit.customer.tier_traversals.first.program_tier.name.should eq('local')
+    end
+
+    it "amends a visit" do
+      # set up a existing customer
+      cred = Perka::Model::UserCredentials.new(:email => 'joe@getperka.com')
+      customer = @api.integrator_customer_post(cred).execute
+
+      # switch over to a clerk at location_one
+      merchants = @api.integrator_managed_merchants_get.execute
+      merchant = @api.describe_entity_get(merchants.first).execute
+      location_one = merchant.merchant_locations.first
+      @api = @api.oauth_integrator_become("CLERK", location_one.uuid)
+
+      # assign some punches
+      program_type = merchant.program_tiers.first.programs.first.program_type
+      visit = @api.customer_reward_put(Perka::Model::RewardGrant.new({
+        :customer => customer,
+        :reward_confirmations => [
+          Perka::Model::PunchRewardConfirmation.new({
+            :program_type => program_type,
+            :punches_earned => 1
+          })
+        ]
+      })).execute
+
+      # confirm that we have one reward with a single punch 
+      # obtained at location_one.
+      visit.customer.rewards.length.should eq(1)
+      visit.customer.rewards.first.punches_earned.should eq(1)
+      visit.reward_advancements.length.should eq(1)
+      visit.reward_advancements.first.punches_earned.should eq(1)
+      visit.merchant_location.uuid.should eq(location_one.uuid)
+
+      # We can now edit the visit to change the number of punches given.
+      # This operation re-writes the history of the visit, so the payload
+      # must represent the new state in its entirety, even if some 
+      # data remains the same.  Also note that the visit given MUST be 
+      # the customers most recent visit.
+      amended_visit = @api.customer_visit_amend_put(Perka::Model::VisitConfirmation.new({
+        :visit => visit,
+        :reward_confirmations => [
+          Perka::Model::PunchRewardConfirmation.new({
+            :program_type => program_type,
+            :punches_earned => 3
+          })
+        ]
+      })).execute
+
+      # confirm that we still have only 1 reward, but that the reward
+      # now has 3 punches instead of 1
+      amended_visit.customer.rewards.length.should eq(1)
+      amended_visit.customer.rewards.first.punches_earned.should eq(3)
+      amended_visit.reward_advancements.length.should eq(1)
+      amended_visit.reward_advancements.first.punches_earned.should eq(3)
+      amended_visit.merchant_location.uuid.should eq(location_one.uuid)
+
+      # In certain situations, we may also want to change the location 
+      # where the visit occurred.  In order to do this, we need to upgrade
+      # our role to a merchant user, since the clerk's access is limited 
+      # to the location they're assigned to
+      manager = merchant.merchant_users.first
+      @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
+      @api = @api.oauth_integrator_become("MERCHANT", manager.uuid)
+
+      # swap the visit's location out for another one
+      location_two = merchant.merchant_locations.last
+      location_two.uuid.should_not eq(location_one.uuid)
+      amended_visit.merchant_location = location_two
+
+      # then request for the vist to be amended again.  Remember, we need to
+      # pass up the entire new state of the visit here, so we could change
+      # the number of punches given again
+      new_amended_visit = @api.customer_visit_amend_put(Perka::Model::VisitConfirmation.new({
+        :visit => amended_visit,
+        :reward_confirmations => [
+          Perka::Model::PunchRewardConfirmation.new({
+            :program_type => program_type,
+            :punches_earned => 4
+          })
+        ]
+      })).execute
+
+      # ensure that the visit was in fact moved to the new location, and that
+      # the punch count was updated again
+      new_amended_visit.merchant_location.uuid.should eq(location_two.uuid)
+      new_amended_visit.customer.rewards.length.should eq(1)
+      new_amended_visit.customer.rewards.first.punches_earned.should eq(4)
+      new_amended_visit.reward_advancements.length.should eq(1)
+      new_amended_visit.reward_advancements.first.punches_earned.should eq(4)
+      new_amended_visit.merchant_location.uuid.should eq(location_two.uuid)
     end
     
     it "annotate entities with arbitrary JSON data" do

@@ -10,12 +10,12 @@ module Perka
 
       PROPERTY_NAMES = [
         :visit,
-        :credit,
-        :current_total,
 
         # The number of points that were redeemed
         :charge,
+        :credit,
         :redeemed,
+        :current_total,
         :next_activity
       ]
       attr_accessor *PROPERTY_NAMES
