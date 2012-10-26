@@ -5,6 +5,10 @@ require 'perka/model/coupon_target'
 module Perka
   module Model 
 
+    # A coupon target that enables a coupon during a specific time range during 
+    # the day. The prototypical use of this target is for happy-hour specials. <p> 
+    # The redemption window is expressed as location-relative local times (e.g. 
+    # <code>1530</code>).
     class YieldManagementTarget < CouponTarget
 
       PROPERTY_NAMES = [

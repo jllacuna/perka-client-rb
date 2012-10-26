@@ -29,6 +29,9 @@ module Perka
         :neighborhood_name,
         :resolved_facebook_id,
         :sms_id,
+
+        # The preferred SMS endpoint for local users.
+        :sms_phone_number,
         :geo_location
       ]
       attr_accessor *PROPERTY_NAMES

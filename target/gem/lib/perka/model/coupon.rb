@@ -14,6 +14,7 @@ module Perka
 
         # The CouponVisibilites that control where and to whom the Coupon is available.
         :coupon_visibilities,
+        :title,
 
         # The parent CouponCampaign that aggregates related Coupons.
         :coupon_campaign,
@@ -37,8 +38,7 @@ module Perka
 
         # Indicates whether or not the Coupon will be actively pushed to customer 
         # devices, or if it is a passive coupon.
-        :push_enabled,
-        :title
+        :push_enabled
       ]
       attr_accessor *PROPERTY_NAMES
 

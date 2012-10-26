@@ -10,11 +10,11 @@ module Perka
     class CouponTarget < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :merchant,
 
         # An optional child-to-parent relationship that allows behaviors to be aggregated 
         # together.
-        :parent
+        :parent,
+        :merchant
       ]
       attr_accessor *PROPERTY_NAMES
 

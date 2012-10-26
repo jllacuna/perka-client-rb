@@ -9,20 +9,16 @@ module Perka
     class Merchant < BaseEntityGlobal
 
       PROPERTY_NAMES = [
+        :name,
         :last_action_at,
         :visit_expiration_minutes,
         :program_tiers,
         :merchant_locations,
-        :loyalty_type,
 
         # A list of Clerks, which are limited to acting on specific locations.
         :clerks,
         :merchant_state,
-        :sales_demo,
-        :headline,
-        :merchant_capabilities,
-        :merchant_users,
-        :notes,
+        :loyalty_type,
 
         # Points-based merchants will define one or more catalog items for which 
         # points can be redeemed.
@@ -31,9 +27,13 @@ module Perka
         # Points-based merchants may offer a signup bonus to new customers for signing 
         # up.
         :points_signup_bonus,
+        :sales_demo,
+        :headline,
+        :merchant_capabilities,
+        :merchant_users,
+        :notes,
         :terms,
-        :website_url,
-        :name
+        :website_url
       ]
       attr_accessor *PROPERTY_NAMES
 

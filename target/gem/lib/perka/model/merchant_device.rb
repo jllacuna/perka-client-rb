@@ -10,12 +10,12 @@ module Perka
 
       PROPERTY_NAMES = [
         :merchant_location,
+        :identifier,
         :serial_number,
+        :model,
         :make,
         :os_version,
-        :platform,
-        :model,
-        :identifier
+        :platform
       ]
       attr_accessor *PROPERTY_NAMES
 

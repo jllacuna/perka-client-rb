@@ -10,11 +10,11 @@ module Perka
 
       PROPERTY_NAMES = [
 
-        # Catalog items that are being redeemed.
-        :points_catalog_items,
-
         # The total dollar amount spent during the transaction.
-        :money_spent
+        :money_spent,
+
+        # Catalog items that are being redeemed.
+        :points_catalog_items
       ]
       attr_accessor *PROPERTY_NAMES
 

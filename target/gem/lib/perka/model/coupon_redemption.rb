@@ -5,6 +5,8 @@ require 'perka/model/base_entity_global'
 module Perka
   module Model 
 
+    # Represents a <entityReference payloadName='customer'> Customer</entityReference>'s 
+    # redemption of a particular <entityReference payloadName='coupon'> Coupon</entityReference>.
     class CouponRedemption < BaseEntityGlobal
 
       PROPERTY_NAMES = [

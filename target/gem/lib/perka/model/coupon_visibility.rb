@@ -5,6 +5,12 @@ require 'perka/model/base_entity_global'
 module Perka
   module Model 
 
+    # Allows a particular <entityReference payloadName='coupon'> Coupon</entityReference> 
+    # to be offered at a single <entityReference payloadName='merchantLocation'> 
+    # MerchantLocation</entityReference>. The visiblity of the <entityReference 
+    # payloadName='coupon'> Coupon</entityReference> will be further filtered to 
+    # a <entityReference payloadName='customer'> Customer</entityReference> based 
+    # on the associated <entityReference payloadName='couponTarget'> CouponTarget</entityReference>.
     class CouponVisibility < BaseEntityGlobal
 
       PROPERTY_NAMES = [
