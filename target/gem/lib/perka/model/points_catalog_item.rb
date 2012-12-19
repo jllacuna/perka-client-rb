@@ -14,20 +14,21 @@ module Perka
         # The merchant that owns the item.
         :merchant,
 
-        # The number of points required to redeem the item.
-        :points_required,
+        # The time at which the catalog item will no longer be available for redemption.
+        :expires_at,
 
         # A longer text description of the item, including any terms and conditions.
         :terms,
-
-        # The time at which the catalog item will no longer be available for redemption.
-        :expires_at,
+        :position,
 
         # An optional icon name used when rendering the catalog item.
         :icon,
 
         # A short label for describing the item.
-        :label
+        :label,
+
+        # The number of points required to redeem the item.
+        :points_required
       ]
       attr_accessor *PROPERTY_NAMES
 

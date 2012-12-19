@@ -7,6 +7,10 @@ module Perka
 
     class OutboundMessage < BaseEntityGlobal
 
+      PROPERTY_NAMES = [
+        :body
+      ]
+      attr_accessor *PROPERTY_NAMES
 
 
 

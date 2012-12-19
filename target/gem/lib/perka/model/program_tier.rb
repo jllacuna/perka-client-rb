@@ -14,8 +14,8 @@ module Perka
         :tier_traversals,
         :merchant,
         :programs,
-        :points_multiplier,
         :additional_perks,
+        :points_multiplier,
         :visits_needed
       ]
       attr_accessor *PROPERTY_NAMES

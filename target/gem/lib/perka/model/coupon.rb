@@ -14,7 +14,6 @@ module Perka
 
         # The CouponVisibilites that control where and to whom the Coupon is available.
         :coupon_visibilities,
-        :title,
 
         # The parent CouponCampaign that aggregates related Coupons.
         :coupon_campaign,
@@ -34,6 +33,7 @@ module Perka
         :local_ends_at,
         :notify_minutes_before,
         :perk_id,
+        :title,
         :url,
 
         # Indicates whether or not the Coupon will be actively pushed to customer 

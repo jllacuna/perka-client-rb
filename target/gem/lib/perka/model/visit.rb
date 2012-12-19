@@ -31,18 +31,18 @@ module Perka
         # merchant.
         :current_points_activity,
 
-        # The time at which the visit was confirmed by the clerk.
-        :validated_at,
+        # The PointsActivities associated with the visit.
+        :points_activities,
 
         # The <entityReference payloadName='coupon'> Coupons</entityReference> that 
         # were redeemed during the visit.
         :coupon_redemptions,
 
-        # Any feedback left by the Customer after the Visit was validated.
-        :feedback_item,
+        # The time at which the visit was confirmed by the clerk.
+        :validated_at,
 
-        # The PointsActivities associated with the visit.
-        :points_activities
+        # Any feedback left by the Customer after the Visit was validated.
+        :feedback_item
       ]
       attr_accessor *PROPERTY_NAMES
 

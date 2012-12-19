@@ -5,6 +5,31 @@ module Perka
   class ClientApi < Flatpack::Client::BaseApi
     include Flatpack::Core::MapInitialize
 
+    # Returns the manifest of perk icon names.
+    def asset_manifest_perks_get
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/asset/manifest/perks")
+      to_return
+    end
+
+    # Retrieves the <entityReference payloadName='customer'> Customer</entityReference> 
+    # associated with the given uuid. The response will include <entityReference 
+    # payloadName='reward'> Reward</entityReference> and <entityReference payloadName='tierTraversal'> 
+    # TierTraversal</entityReference> information for the <entityReference payloadName='merchant'> 
+    # Merchant</entityReference> associated with the logged in <entityReference 
+    # payloadName='clerk'> Clerk</entityReference> or <entityReference payloadName='merchantUser'> 
+    # MerchantUser</entityReference>.
+    def customer_uuid_get(uuid)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/{uuid}", uuid)
+      to_return
+    end
+
+    # Returns the current customer's PointsActivity status across all merchants 
+    # with a points-based loyalty system.
+    def customer_points_get
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/points")
+      to_return
+    end
+
     # Performs a deep serialization of an entity. This endpoint is intended to provide 
     # supplementary one-to-many relationship data that is not normally serialized 
     # to keep payload sizes manageable.
@@ -28,75 +53,9 @@ module Perka
 
     # Add or replace an annotation applied to a persistent entity. If the value 
     # of <entityReference payloadName='entityAnnotation'> EntityAnnotation</entityReference> 
-    # is missing or <code>null</code>, the annotation will be removed. This method 
-    # will return the previously-stored annotation, if any.
+    # is missing or <code>null</code>, the annotation will be removed.
     def annotation_put(entity)
       to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/annotation")
-      to_return.entity = entity
-      to_return
-    end
-
-    # Rewards a Customer. This method will implicitly create a <entityReference 
-    # payloadName='visit'> Visit</entityReference> which will be returned. The response 
-    # will also include any s manipulated by this visit, as well as the customer's 
-    # most recent @{link TierTraversal} at the associated @{link Merchant}
-    def customer_reward_put(entity)
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/customer/reward")
-      to_return.entity = entity
-      to_return
-    end
-
-    # Returns the manifest of perk icon names.
-    def asset_manifest_perks_get
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/asset/manifest/perks")
-      to_return
-    end
-
-    # Rewrites the history of a customer's latest validated visit to a merchant. 
-    # The <entityReference payloadName='abstractRewardConfirmation'> AbstractRewardConfirmation</entityReference> 
-    # instances associated with the <entityReference payloadName='visitConfirmation'> 
-    # VisitConfirmation</entityReference> should reflect the desired state of the 
-    # Visit. <p> This method will return the updated <entityReference payloadName='visit'> 
-    # Visit</entityReference> along with any <entityReference payloadName='tierTraversal'> 
-    # TierTraversal</entityReference>, <entityReference payloadName='rewardAdvancement'> 
-    # RewardAdvancement</entityReference>, or <entityReference payloadName='pointsActivity'> 
-    # PointsActivity</entityReference> that occurs.
-    def customer_visit_amend_put(entity)
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/customer/visit/amend")
-      to_return.entity = entity
-      to_return
-    end
-
-    # Creates a new outstanding visit for the current customer at the given location. 
-    # If the customer has no active Rewards at the associated merchant, a new Reward 
-    # will be created for each of the merchant's programs. Information about the 
-    # visit, and all active rewards for the associated merchant will be returned.
-    def customer_visit_post(entity)
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "POST", "/api/2/customer/visit")
-      to_return.entity = entity
-      to_return
-    end
-
-    # Returns a sparse list of visits at the current merchant location that are 
-    # un-validated, or that occurred after the time of the most recent validated 
-    # visit given. This request must be made with a anonymous clerk role that corresponds 
-    # to exactly one MerchantLocation.
-    def customer_visit_get
-      to_return = CustomerVisitGet.new(self)
-      to_return
-    end
-
-    # Checks for the validation of an outstanding visit and returns a sparse payload 
-    # of <entityReference payloadName='visit'> Visit</entityReference> and related 
-    # items.
-    def customer_visit_validate_get
-      to_return = CustomerVisitValidateGet.new(self)
-      to_return
-    end
-
-    # Validates a visit
-    def customer_visit_put(entity)
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/customer/visit")
       to_return.entity = entity
       to_return
     end
@@ -166,21 +125,61 @@ module Perka
       to_return
     end
 
-    # Retrieves the <entityReference payloadName='customer'> Customer</entityReference> 
-    # associated with the given uuid. The response will include <entityReference 
-    # payloadName='reward'> Reward</entityReference> and <entityReference payloadName='tierTraversal'> 
-    # TierTraversal</entityReference> information for the <entityReference payloadName='merchant'> 
-    # Merchant</entityReference> associated with the logged in <entityReference 
-    # payloadName='clerk'> Clerk</entityReference> or .
-    def customer_uuid_get(uuid)
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/{uuid}", uuid)
+    # Rewards a Customer. This method will implicitly create a <entityReference 
+    # payloadName='visit'> Visit</entityReference> which will be returned.
+    def customer_reward_put(entity)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/customer/reward")
+      to_return.entity = entity
       to_return
     end
 
-    # Returns the current customer's PointsActivity status across all merchants 
-    # with a points-based loyalty system.
-    def customer_points_get
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/points")
+    # Rewrites the history of a customer's latest validated visit to a merchant. 
+    # The <entityReference payloadName='abstractRewardConfirmation'> AbstractRewardConfirmation</entityReference> 
+    # instances associated with the <entityReference payloadName='visitConfirmation'> 
+    # VisitConfirmation</entityReference> should reflect the desired state of the 
+    # Visit.
+    def customer_visit_amend_put(entity)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/customer/visit/amend")
+      to_return.entity = entity
+      to_return
+    end
+
+    # Creates a new outstanding visit for the current customer at the given location. 
+    # If the Customer attempts to check into the same location more than once, the 
+    # same <entityReference payloadName='visit'> Visit</entityReference> will be 
+    # returned. <p> If the customer has no active Rewards at the associated merchant, 
+    # a new Reward will be created for each of the merchant's programs. Information 
+    # about the visit, and all active rewards for the associated merchant will be 
+    # returned.
+    def customer_visit_post(entity)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "POST", "/api/2/customer/visit")
+      to_return.entity = entity
+      to_return
+    end
+
+    # Returns a sparse list of visits at the current merchant location that are 
+    # un-validated, or that occurred after the time of the most recent validated 
+    # visit given. This request must be made with a anonymous clerk role that corresponds 
+    # to exactly one MerchantLocation.
+    def customer_visit_get
+      to_return = CustomerVisitGet.new(self)
+      to_return
+    end
+
+    # Checks for the validation of an outstanding visit and returns a sparse payload 
+    # of <entityReference payloadName='visit'> Visit</entityReference> and related 
+    # items. Calls to this API method will hang for a period of time until a Visit 
+    # associated with the requesting Customer has been updated.
+    def customer_visit_validate_get
+      to_return = CustomerVisitValidateGet.new(self)
+      to_return
+    end
+
+    # Validates a <entityReference payloadName='visit'> Visit</entityReference>. 
+    # This endpoint is the second half of the "two-phase" checkin flow.
+    def customer_visit_put(entity)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/customer/visit")
+      to_return.entity = entity
       to_return
     end
 
@@ -236,6 +235,8 @@ module Perka
         super(api, "GET", "/api/2/customer/visit/validate", *args)
       end
 
+      # The UUID of the most recently validated Visit known by the client. This 
+      # is used to reduce the amount of returned data.
       def with_most_recent_validated_uuid(most_recent_validated_uuid)
         query_parameter('mostRecentValidatedUuid', most_recent_validated_uuid);
       end

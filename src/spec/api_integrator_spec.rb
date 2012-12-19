@@ -8,6 +8,10 @@ INTEGRATOR_ID = '44ff7a20-cb63-11e1-9b23-0800200c9a66'
 INTEGRATOR_SECRET = 'foobar'
 API_BASE = 'https://sandbox.getperka.com'
 
+RSpec.configure do |c|
+  c.fail_fast = true
+end
+
 describe Perka::PerkaApi do
   context "as an integrator user" do
   
@@ -230,6 +234,14 @@ describe Perka::PerkaApi do
       # describe_entity_get(merchant) request.
       visit.customer.tier_traversals.length.should eq(1)
       visit.customer.tier_traversals.first.program_tier.name.should eq('local')
+
+      # We'll make another round trip to the server to ensure we can
+      # now access the customer's most recent tier traversal for the 
+      # merchant associated with the current session
+      customer = @api.customer_uuid_get(existing_customer.uuid).execute
+      customer.tier_traversals.length.should eq(1)
+      customer.tier_traversals.first.program_tier.name.should eq('local')
+      customer.tier_traversals.first.program_tier.merchant.uuid.should eq(merchant.uuid)
     end
 
     it "amends a visit" do
