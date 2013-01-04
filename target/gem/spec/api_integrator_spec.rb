@@ -236,7 +236,8 @@ describe Perka::PerkaApi do
       visit.customer.tier_traversals.first.program_tier.name.should eq('local')
 
       # We'll make another round trip to the server to ensure we can
-      # now access the customer's last tier traversal
+      # now access the customer's most recent tier traversal for the 
+      # merchant associated with the current session
       customer = @api.customer_uuid_get(existing_customer.uuid).execute
       customer.tier_traversals.length.should eq(1)
       customer.tier_traversals.first.program_tier.name.should eq('local')

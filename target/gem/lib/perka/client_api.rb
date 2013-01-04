@@ -11,25 +11,6 @@ module Perka
       to_return
     end
 
-    # Retrieves the <entityReference payloadName='customer'> Customer</entityReference> 
-    # associated with the given uuid. The response will include <entityReference 
-    # payloadName='reward'> Reward</entityReference> and <entityReference payloadName='tierTraversal'> 
-    # TierTraversal</entityReference> information for the <entityReference payloadName='merchant'> 
-    # Merchant</entityReference> associated with the logged in <entityReference 
-    # payloadName='clerk'> Clerk</entityReference> or <entityReference payloadName='merchantUser'> 
-    # MerchantUser</entityReference>.
-    def customer_uuid_get(uuid)
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/{uuid}", uuid)
-      to_return
-    end
-
-    # Returns the current customer's PointsActivity status across all merchants 
-    # with a points-based loyalty system.
-    def customer_points_get
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/points")
-      to_return
-    end
-
     # Performs a deep serialization of an entity. This endpoint is intended to provide 
     # supplementary one-to-many relationship data that is not normally serialized 
     # to keep payload sizes manageable.
@@ -130,6 +111,25 @@ module Perka
     def customer_reward_put(entity)
       to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/customer/reward")
       to_return.entity = entity
+      to_return
+    end
+
+    # Retrieves the <entityReference payloadName='customer'> Customer</entityReference> 
+    # associated with the given uuid. The response will include <entityReference 
+    # payloadName='reward'> Reward</entityReference> and <entityReference payloadName='tierTraversal'> 
+    # TierTraversal</entityReference> information for the <entityReference payloadName='merchant'> 
+    # Merchant</entityReference> associated with the logged in <entityReference 
+    # payloadName='clerk'> Clerk</entityReference> or <entityReference payloadName='merchantUser'> 
+    # MerchantUser</entityReference>.
+    def customer_uuid_get(uuid)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/{uuid}", uuid)
+      to_return
+    end
+
+    # Returns the current customer's PointsActivity status across all merchants 
+    # with a points-based loyalty system.
+    def customer_points_get
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/points")
       to_return
     end
 
