@@ -23,7 +23,10 @@ module Perka
 
         # At least one <entityReference payloadName='abstractRewardConfirmation'> 
         # AbstractRewardConfirmation</entityReference> must be given.
-        :reward_confirmations
+        :reward_confirmations,
+
+        # Allows the effective date of the resulting visit to be back-dated.
+        :effective_at
       ]
       attr_accessor *PROPERTY_NAMES
 

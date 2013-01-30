@@ -33,7 +33,8 @@ module Perka
         # up.
         :points_signup_bonus,
         :terms,
-        :website_url
+        :website_url,
+        :managed
       ]
       attr_accessor *PROPERTY_NAMES
 

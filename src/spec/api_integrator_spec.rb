@@ -188,6 +188,25 @@ describe Perka::PerkaApi do
       rewards.first.activated_at.should be_nil
       rewards.first.redeemed_at.should be_nil
       rewards.first.punches_earned.should eq(2)
+
+      # If necessary, reward grants may be given an effective datetime
+      # other than the current datetime.  This will place the visit's 
+      # validation (and any resulting tier traversals) at the 
+      # given effective datetime.
+      effective_at = '2012-02-28T10:00:00.000Z'
+      visit = @api.customer_reward_put(Perka::Model::RewardGrant.new({
+        :customer => customer,
+        :effective_at => effective_at,
+        :reward_confirmations => [
+          Perka::Model::PunchRewardConfirmation.new({
+            :program_type => program_type,
+            :punches_earned => 9
+          })
+        ]
+      })).execute
+
+      # our resulting visit should have the proper validation date
+      visit.validated_at.should eq(effective_at)
     end
 
     it "determines the status of an existing customer" do
