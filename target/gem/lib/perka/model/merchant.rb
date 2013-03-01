@@ -32,6 +32,9 @@ module Perka
         # Points-based merchants may offer a signup bonus to new customers for signing 
         # up.
         :points_signup_bonus,
+
+        # Returns the MerchantStates that the Merchant user may transition to.
+        :possible_merchant_states,
         :terms,
         :website_url,
         :managed

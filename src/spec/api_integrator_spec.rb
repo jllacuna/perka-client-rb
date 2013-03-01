@@ -1,12 +1,12 @@
 require 'perka'
 
-#INTEGRATOR_ID = 'e475e342-a542-11e1-9f8d-cde92706a93d'
-#INTEGRATOR_SECRET = 'integrator'
-#API_BASE = 'http://localhost'
+INTEGRATOR_ID = 'e475e342-a542-11e1-9f8d-cde92706a93d'
+INTEGRATOR_SECRET = 'integrator'
+API_BASE = 'http://localhost'
 
-INTEGRATOR_ID = '44ff7a20-cb63-11e1-9b23-0800200c9a66'
-INTEGRATOR_SECRET = 'foobar'
-API_BASE = 'https://sandbox.getperka.com'
+#INTEGRATOR_ID = '44ff7a20-cb63-11e1-9b23-0800200c9a66'
+#INTEGRATOR_SECRET = 'foobar'
+#API_BASE = 'https://sandbox.getperka.com'
 
 RSpec.configure do |c|
   c.fail_fast = true
@@ -20,7 +20,7 @@ describe Perka::PerkaApi do
       @api = Perka::PerkaApi.new({
         :flatpack => Flatpack::Core::Flatpack.new({
           :pretty => true, 
-          :verbose => false,
+          :verbose => true,
           :entity_module => Perka::Model
         }),
         :server_base => API_BASE,
@@ -206,7 +206,7 @@ describe Perka::PerkaApi do
       })).execute
 
       # our resulting visit should have the proper validation date
-      visit.validated_at.should eq(effective_at)
+      Time.parse(visit.validated_at).utc.strftime("%Y-%m-%dT%H:%M:%S.000Z").should eq(effective_at)
     end
 
     it "determines the status of an existing customer" do

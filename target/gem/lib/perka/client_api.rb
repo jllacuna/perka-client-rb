@@ -117,14 +117,6 @@ module Perka
       to_return
     end
 
-    # Returns a sparse payload of all live <entityReference payloadName='merchantLocation'> 
-    # locations</entityReference> and their associated <entityReference payloadName='merchant'> 
-    # merchants</entityReference>.
-    def merchant_locations_get
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/merchant/locations")
-      to_return
-    end
-
     # Rewards a Customer. This method will implicitly create a <entityReference 
     # payloadName='visit'> Visit</entityReference> which will be returned.
     def customer_reward_put(entity)
@@ -180,6 +172,14 @@ module Perka
     def customer_visit_put(entity)
       to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/customer/visit")
       to_return.entity = entity
+      to_return
+    end
+
+    # Returns a sparse payload of all live <entityReference payloadName='merchantLocation'> 
+    # locations</entityReference> and their associated <entityReference payloadName='merchant'> 
+    # merchants</entityReference>.
+    def merchant_locations_get
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/merchant/locations")
       to_return
     end
 

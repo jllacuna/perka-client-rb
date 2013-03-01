@@ -11,9 +11,9 @@ module Perka
 
       PROPERTY_NAMES = [
         :name,
-        :tier_traversals,
         :merchant,
         :programs,
+        :tier_traversals,
         :additional_perks,
         :points_multiplier,
         :visits_needed
