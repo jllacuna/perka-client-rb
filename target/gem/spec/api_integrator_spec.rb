@@ -34,6 +34,33 @@ describe Perka::PerkaApi do
       @api.integrator_destroy_delete.execute
     end
 
+    it "performs oauth session refresh" do
+      # grab an api reference with integrator credentials
+      @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
+
+      # downgrade our api to a clerk session
+      merchants = @api.integrator_managed_merchants_get.execute
+      merchant = @api.describe_entity_get(merchants.first).execute
+      location = merchant.merchant_locations.first
+      @api = @api.oauth_integrator_become("CLERK", location.uuid)
+
+      # now we'll ensure the clerk's session can be properly refreshed
+      old_access_token = @api.access_token
+      old_access_expiration = @api.access_expiration
+      sleep(2)
+      @api.oauth_refresh_token
+
+      # the new session should have a new access token with a 
+      # further expiration date
+      @api.access_token.should_not equal(old_access_token);
+      @api.access_expiration.to_i.should be > old_access_token.to_i
+      
+      # we'll also ensure that the new session can still make valid requests
+      request = @api.customer_visit_get
+      request.execute
+      request.response.code.to_i.should eq(200)
+    end
+    
     it "creates a new managed customer" do
       @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
       

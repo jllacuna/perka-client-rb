@@ -5,7 +5,8 @@ module Perka
     
     include Flatpack::Core::MapInitialize
     
-    attr_accessor :access_token, :access_expiration, :refresh_token, :user_uuid
+    attr_accessor :access_token, :access_expiration, :refresh_token, 
+      :user_uuid, :integrator_id, :integrator_secret
     
     # our session is considered active if we've never received an access
     # token, or our token expiration as after now
@@ -46,6 +47,8 @@ module Perka
         :flatpack => @flatpack,
         :access_token => @access_token,
         :access_expiration => @access_expiration,
+        :integrator_secret => @integrator_secret,
+        :integrator_id => @integrator_id,
         :verbose => @verbose,
       })
       execute_token_request(new_api, payload)
