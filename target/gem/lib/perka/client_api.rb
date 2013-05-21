@@ -19,7 +19,7 @@ module Perka
     # payloadName='clerk'> Clerk</entityReference> or <entityReference payloadName='merchantUser'> 
     # MerchantUser</entityReference>.
     def customer_uuid_get(uuid)
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/customer/{uuid}", uuid)
+      to_return = CustomerUuidGet.new(self, uuid)
       to_return
     end
 
@@ -117,6 +117,14 @@ module Perka
       to_return
     end
 
+    # Returns a sparse payload of all live <entityReference payloadName='merchantLocation'> 
+    # locations</entityReference> and their associated <entityReference payloadName='merchant'> 
+    # merchants</entityReference>.
+    def merchant_locations_get
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/merchant/locations")
+      to_return
+    end
+
     # Rewards a Customer. This method will implicitly create a <entityReference 
     # payloadName='visit'> Visit</entityReference> which will be returned.
     def customer_reward_put(entity)
@@ -158,6 +166,14 @@ module Perka
       to_return
     end
 
+    # Validates a <entityReference payloadName='visit'> Visit</entityReference>. 
+    # This endpoint is the second half of the "two-phase" checkin flow.
+    def customer_visit_put(entity)
+      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/customer/visit")
+      to_return.entity = entity
+      to_return
+    end
+
     # Checks for the validation of an outstanding visit and returns a sparse payload 
     # of <entityReference payloadName='visit'> Visit</entityReference> and related 
     # items. Calls to this API method will hang for a period of time until a Visit 
@@ -167,23 +183,21 @@ module Perka
       to_return
     end
 
-    # Validates a <entityReference payloadName='visit'> Visit</entityReference>. 
-    # This endpoint is the second half of the "two-phase" checkin flow.
-    def customer_visit_put(entity)
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "PUT", "/api/2/customer/visit")
-      to_return.entity = entity
-      to_return
-    end
-
-    # Returns a sparse payload of all live <entityReference payloadName='merchantLocation'> 
-    # locations</entityReference> and their associated <entityReference payloadName='merchant'> 
-    # merchants</entityReference>.
-    def merchant_locations_get
-      to_return = Flatpack::Client::FlatpackRequest.new(self, "GET", "/api/2/merchant/locations")
-      to_return
-    end
-
     private
+
+    class CustomerUuidGet < Flatpack::Client::FlatpackRequest
+
+      def initialize(api, *args)
+        super(api, "GET", "/api/2/customer/{uuid}", *args)
+      end
+
+      # If true, the returning list will also include customer visits and any associated 
+      # pointsActivities or rewardAdvancements.
+      def with_with_visit_details(with_visit_details)
+        query_parameter('withVisitDetails', with_visit_details);
+      end
+
+    end
 
     class DescribeTypeUuidGet < Flatpack::Client::FlatpackRequest
 
@@ -239,6 +253,15 @@ module Perka
       # is used to reduce the amount of returned data.
       def with_most_recent_validated_uuid(most_recent_validated_uuid)
         query_parameter('mostRecentValidatedUuid', most_recent_validated_uuid);
+      end
+
+      # By default, requests to this endpoint will hang for a period of time before 
+      # returning in order to wait for a visit associated with the location to be 
+      # created or updated. Setting this query parameter to <code>true</code> will 
+      # disable the hanging get behavior, which is appropriate for requests used 
+      # for first-time UI initialization.
+      def with_fast_poll(fast_poll)
+        query_parameter('fastPoll', fast_poll);
       end
 
     end

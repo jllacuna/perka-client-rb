@@ -21,12 +21,12 @@ module Perka
       PROPERTY_NAMES = [
         :customer,
 
+        # Allows the effective date of the resulting visit to be back-dated.
+        :effective_at,
+
         # At least one <entityReference payloadName='abstractRewardConfirmation'> 
         # AbstractRewardConfirmation</entityReference> must be given.
-        :reward_confirmations,
-
-        # Allows the effective date of the resulting visit to be back-dated.
-        :effective_at
+        :reward_confirmations
       ]
       attr_accessor *PROPERTY_NAMES
 

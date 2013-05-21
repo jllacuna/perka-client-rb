@@ -10,15 +10,16 @@ module Perka
     class Customer < AbstractUser
 
       PROPERTY_NAMES = [
+        :tier_traversals,
         :avatar_url,
         :customer_devices,
 
         # The integrator that created the Customer object.
         :managed_by,
+        :outbound_messages,
         :rewards,
         :sms_messages,
         :social_service_subscriptions,
-        :tier_traversals,
 
         # You probably want #getLastVisit().
         :visits,

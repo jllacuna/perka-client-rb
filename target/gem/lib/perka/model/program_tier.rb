@@ -11,11 +11,11 @@ module Perka
 
       PROPERTY_NAMES = [
         :name,
-        :merchant,
-        :programs,
         :tier_traversals,
+        :merchant,
         :additional_perks,
         :points_multiplier,
+        :programs,
         :visits_needed
       ]
       attr_accessor *PROPERTY_NAMES

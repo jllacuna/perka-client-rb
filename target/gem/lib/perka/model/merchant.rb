@@ -10,19 +10,20 @@ module Perka
 
       PROPERTY_NAMES = [
         :name,
-        :last_action_at,
-        :visit_expiration_minutes,
-        :program_tiers,
+        :managed,
+        :merchant_state,
         :merchant_locations,
-        :loyalty_type,
+        :merchant_users,
+        :last_action_at,
+        :parent_merchant,
 
         # A list of Clerks, which are limited to acting on specific locations.
         :clerks,
-        :merchant_state,
+        :visit_expiration_minutes,
+        :loyalty_type,
         :sales_demo,
         :headline,
         :merchant_capabilities,
-        :merchant_users,
         :notes,
 
         # Points-based merchants will define one or more catalog items for which 
@@ -35,13 +36,20 @@ module Perka
 
         # Returns the MerchantStates that the Merchant user may transition to.
         :possible_merchant_states,
+        :program_tiers,
         :terms,
         :website_url,
-        :managed
+        :managed_by
       ]
       attr_accessor *PROPERTY_NAMES
 
 
+      require 'perka/model/merchant'
+      require 'perka/model/integrator_user'
+      TYPE_MAP = {
+        :parent_merchant => Perka::Model::Merchant,
+        :managed_by => Perka::Model::IntegratorUser
+      }
 
     end
   end

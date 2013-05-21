@@ -13,8 +13,8 @@ module Perka
       PROPERTY_NAMES = [
         :punches_earned,
         :visit,
-        :reward,
-        :transfer
+        :transfer,
+        :reward
       ]
       attr_accessor *PROPERTY_NAMES
 

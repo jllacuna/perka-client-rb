@@ -11,8 +11,8 @@ module Perka
 
       PROPERTY_NAMES = [
         :phone,
-        :merchant,
         :timezone,
+        :merchant,
 
         # The named Clerks which are allowed to operate on the MerchantLocation. 
         # This relationship is owned by the Clerk object.
@@ -32,6 +32,9 @@ module Perka
 
         # The preferred SMS endpoint for local users.
         :sms_phone_number,
+
+        # The data stored in this point is backwards from the usual notation. x 
+        # == latitude and y == longitude.
         :geo_location
       ]
       attr_accessor *PROPERTY_NAMES

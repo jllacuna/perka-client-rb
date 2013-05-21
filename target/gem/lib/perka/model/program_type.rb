@@ -15,9 +15,10 @@ module Perka
 
       PROPERTY_NAMES = [
         :name,
-        :programs,
+        :shared,
         :expires_at,
         :position,
+        :programs,
         :stamp_id,
         :expires_in
       ]

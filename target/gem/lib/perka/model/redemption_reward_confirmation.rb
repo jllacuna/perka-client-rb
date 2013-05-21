@@ -12,7 +12,8 @@ module Perka
 
         # The <entityReference payloadName='reward'> Reward</entityReference> that 
         # represents a specific instance of a completed punchcard.
-        :reward
+        :reward,
+        :sku
       ]
       attr_accessor *PROPERTY_NAMES
 

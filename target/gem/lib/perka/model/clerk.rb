@@ -15,8 +15,12 @@ module Perka
     class Clerk < AbstractUser
 
       PROPERTY_NAMES = [
+
+        # The locations that the clerk is allowed to interact with.
+        :merchant_locations,
         :email,
         :unconfirmed_email,
+        :outbound_messages,
 
         # The <entityReference payloadName='merchant'> Merchant</entityReference> 
         # that owns the clerk account.
@@ -24,11 +28,7 @@ module Perka
 
         # Indicates if the Clerk is an anonymous role account used by a validator 
         # application at a single location.
-        :anonymous,
-
-        # The locations that the clerk is allowed to interact with.
-        :merchant_locations,
-        :outbound_messages
+        :anonymous
       ]
       attr_accessor *PROPERTY_NAMES
 

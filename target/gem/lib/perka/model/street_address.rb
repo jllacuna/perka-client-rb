@@ -15,9 +15,9 @@ module Perka
         :address,
         :state,
         :country,
-        :address_2,
         :city,
-        :zip
+        :zip,
+        :address_2
       ]
       attr_accessor *PROPERTY_NAMES
 

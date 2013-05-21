@@ -12,10 +12,10 @@ module Perka
       PROPERTY_NAMES = [
         :email,
         :unconfirmed_email,
-        :merchant,
         :weekly_email_enabled,
+        :outbound_messages,
         :sms_messages,
-        :outbound_messages
+        :merchant
       ]
       attr_accessor *PROPERTY_NAMES
 

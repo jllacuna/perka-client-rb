@@ -7,6 +7,10 @@ module Perka
 
     class CannedEmailOutboundMessage < OutboundMessage
 
+      PROPERTY_NAMES = [
+        :base_url
+      ]
+      attr_accessor *PROPERTY_NAMES
 
 
 

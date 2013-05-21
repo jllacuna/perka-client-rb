@@ -12,17 +12,17 @@ module Perka
 
       PROPERTY_NAMES = [
 
-        # The <entityReference payloadName='merchant'> Merchant</entityReference> 
-        # associated with the <entityReference payloadName='visit'> Visit</entityReference>. 
-        # This property is usually inferred from the associated <entityReference 
-        # payloadName='visit'> Visit</entityReference>.
-        :merchant,
-
         # The <entityReference payloadName='customer'> Customer</entityReference> 
         # associated with the <entityReference payloadName='visit'> Visit</entityReference>. 
         # This property is usually inferred from the associated <entityReference 
         # payloadName='visit'> Visit</entityReference>.
         :customer,
+
+        # The <entityReference payloadName='merchant'> Merchant</entityReference> 
+        # associated with the <entityReference payloadName='visit'> Visit</entityReference>. 
+        # This property is usually inferred from the associated <entityReference 
+        # payloadName='visit'> Visit</entityReference>.
+        :merchant,
 
         # The previously-created <entityReference payloadName='visit'> Visit</entityReference> 
         # that is associated with a customer checkin.

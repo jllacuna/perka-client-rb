@@ -12,14 +12,14 @@ module Perka
       PROPERTY_NAMES = [
         :program_tier,
         :program_type,
-        :free_item,
-        :punches_needed,
         :image_name,
         :perk_id,
+        :punches_needed,
+        :free_item,
         :terms,
         :punches_needed_prefix,
-        :purchased_item,
-        :punches_needed_suffix
+        :punches_needed_suffix,
+        :purchased_item
       ]
       attr_accessor *PROPERTY_NAMES
 

@@ -8,8 +8,14 @@ module Perka
     # An implementation of outbound message corresponding to a message being sent 
     # over a platform push notification system (e.g. C2DM for Android or APS for 
     # iOS)
-    class PushMessage < OutboundMessage
+    class PushOutboundMessage < OutboundMessage
 
+      PROPERTY_NAMES = [
+        :push_status,
+        :push_expires_at,
+        :push_extra_data
+      ]
+      attr_accessor *PROPERTY_NAMES
 
 
 

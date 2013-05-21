@@ -10,9 +10,9 @@ module Perka
     class CouponRedemption < BaseEntityGlobal
 
       PROPERTY_NAMES = [
-        :visit,
         :coupon,
-        :redeemed_at
+        :redeemed_at,
+        :visit
       ]
       attr_accessor *PROPERTY_NAMES
 

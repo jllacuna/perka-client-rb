@@ -9,8 +9,16 @@ module Perka
     # a Type, and a integral count describing the actual limit.
     class MerchantCapability < BaseEntityGlobal
 
+      PROPERTY_NAMES = [
+        :merchant
+      ]
+      attr_accessor *PROPERTY_NAMES
 
 
+      require 'perka/model/merchant'
+      TYPE_MAP = {
+        :merchant => Perka::Model::Merchant
+      }
 
     end
   end
