@@ -60,6 +60,42 @@ describe Perka::PerkaApi do
       request.execute
       request.response.code.to_i.should eq(200)
     end
+
+    it "will automatically refresh its accesss token upon expiration" do
+      # grab an api reference with integrator credentials
+      @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
+
+      # Expire our access token
+      @api.access_expiration = Time.now - 2 * 60 * 60
+      # # Make sure our token has expired
+      @api.access_expiration.should be < Time.now
+      @api.session_active?.should be_false
+
+      # get some merchants
+      merchants = @api.integrator_managed_merchants_get.execute
+      merchants.should_not be_nil
+      merchants.should be_kind_of(Array)
+    end
+
+    it "can become a role after the access token expiration" do
+      # grab an api reference with integrator credentials
+      @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
+
+      # downgrade our api to a clerk session
+      merchants = @api.integrator_managed_merchants_get.execute
+      merchant  = @api.describe_entity_get(merchants.first).execute
+      location  = merchant.merchant_locations.first
+
+      # Expire our access token
+      @api.access_expiration = Time.now - 2 * 60 * 60
+      # Make sure our token has expired
+      @api.access_expiration.should be < Time.now
+      @api.session_active?.should be_false
+
+      @clerk_api = @api.oauth_integrator_become("CLERK", location.uuid)
+      @clerk_api.should be_a_kind_of(Perka::PerkaApi)
+      @clerk_api.access_expiration.should be > Time.now
+    end
     
     it "creates a new managed customer" do
       @api.oauth_integrator_login(INTEGRATOR_ID, INTEGRATOR_SECRET)
