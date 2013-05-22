@@ -57,6 +57,10 @@ module Perka
     
     # Obtain a new access token using integrator credentials and a refresh token.
     def oauth_refresh_token
+      # Nil our access token so that we don't initiate another refresh on token execution
+      @access_token      = nil
+      @access_expiration = nil
+
       payload = "grant_type=refresh_token"\
         "&client_id=#{@integrator_id}"\
         "&client_secret=#{URI::encode(@integrator_secret)}"\
